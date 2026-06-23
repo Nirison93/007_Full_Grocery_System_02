@@ -3,11 +3,14 @@ import GuestLayout from "@/Layouts/GuestLayout.vue";
 import InputError from "@/Components/InputError.vue";
 import { Head, useForm } from "@inertiajs/vue3";
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 
 defineProps({
   canResetPassword: { type: Boolean },
   status: { type: String },
 });
+
+const { t, locale } = useI18n();
 
 const form = useForm({
   email: "",
@@ -18,6 +21,11 @@ const form = useForm({
 const showPassword = ref(false);
 const currentYear = new Date().getFullYear();
 
+const toggleLanguage = () => {
+  locale.value = locale.value === 'en' ? 'si' : 'en';
+  localStorage.setItem('locale', locale.value);
+};
+
 const submit = () => {
   form.post(route("login"), {
     onFinish: () => form.reset("password"),
@@ -27,7 +35,7 @@ const submit = () => {
 
 <template>
   <GuestLayout>
-    <Head title="Log in" />
+    <Head :title="$t('auth.sign_in')" />
 
     <div class="login-root">
 
@@ -44,28 +52,26 @@ const submit = () => {
           </div>
 
           <h1 class="hero-title">
-            Your store,<br />
-            fully <em>in control</em>
+            {{ $t('auth.hero_title_1') }}<br />
+            {{ $t('auth.hero_title_2') }} <em>{{ $t('auth.hero_title_em') }}</em>
           </h1>
 
-          <p class="hero-sub">
-            Manage sales, inventory &amp; reports — all from one powerful dashboard built for Sri Lankan businesses.
-          </p>
+          <p class="hero-sub">{{ $t('auth.hero_sub') }}</p>
 
           <div class="stats-row">
             <div class="stat">
               <span class="stat-num">12k+</span>
-              <span class="stat-lbl">Active users</span>
+              <span class="stat-lbl">{{ $t('auth.active_users') }}</span>
             </div>
             <div class="stat-divider" />
             <div class="stat">
               <span class="stat-num">99.9%</span>
-              <span class="stat-lbl">Uptime</span>
+              <span class="stat-lbl">{{ $t('auth.uptime') }}</span>
             </div>
             <div class="stat-divider" />
             <div class="stat">
               <span class="stat-num">LKR</span>
-              <span class="stat-lbl">Local support</span>
+              <span class="stat-lbl">{{ $t('auth.local_support') }}</span>
             </div>
           </div>
         </div>
@@ -85,13 +91,23 @@ const submit = () => {
             </div>
             <div>
               <p class="logo-name">Online මුදලාලි</p>
-              <p class="logo-sub">Point of Sale</p>
+              <p class="logo-sub">{{ $t('auth.point_of_sale') }}</p>
             </div>
+            <!-- Language toggle on login page -->
+            <button
+              @click="toggleLanguage"
+              type="button"
+              class="ml-auto inline-flex items-center gap-1 px-3 py-1.5 rounded-md border border-gray-300 text-xs font-bold tracking-wide transition-all hover:bg-gray-100 select-none"
+            >
+              <span :class="locale === 'en' ? 'text-gray-900' : 'text-gray-400'">EN</span>
+              <span class="text-gray-400">|</span>
+              <span :class="locale === 'si' ? 'text-blue-600' : 'text-gray-400'">සිං</span>
+            </button>
           </div>
 
           <!-- Heading -->
-          <h2 class="form-title">Welcome back</h2>
-          <p class="form-sub">Sign in to your account to continue</p>
+          <h2 class="form-title">{{ $t('auth.welcome_back') }}</h2>
+          <p class="form-sub">{{ $t('auth.sign_in_subtitle') }}</p>
 
           <!-- Status -->
           <div v-if="status" class="status-msg">
@@ -108,7 +124,7 @@ const submit = () => {
 
             <!-- Email -->
             <div class="field">
-              <label for="email" class="field-label">Email Address</label>
+              <label for="email" class="field-label">{{ $t('auth.email_address') }}</label>
               <div class="field-wrap">
                 <svg class="field-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
@@ -119,7 +135,7 @@ const submit = () => {
                   v-model="form.email"
                   type="email"
                   autocomplete="username"
-                  placeholder="you@example.com"
+                  :placeholder="$t('auth.email_placeholder')"
                   required
                   autofocus
                   class="field-input"
@@ -132,9 +148,9 @@ const submit = () => {
             <!-- Password -->
             <div class="field">
               <div class="field-header">
-                <label for="password" class="field-label">Password</label>
+                <label for="password" class="field-label">{{ $t('auth.password') }}</label>
                 <a v-if="canResetPassword" :href="route('password.request')" class="forgot-link">
-                  Forgot password?
+                  {{ $t('auth.forgot_password') }}
                 </a>
               </div>
               <div class="field-wrap">
@@ -147,7 +163,7 @@ const submit = () => {
                   v-model="form.password"
                   :type="showPassword ? 'text' : 'password'"
                   autocomplete="current-password"
-                  placeholder="Enter your password"
+                  :placeholder="$t('auth.password_placeholder')"
                   required
                   class="field-input field-input--padded"
                   :class="{ 'field-input--error': form.errors.password }"
@@ -156,16 +172,14 @@ const submit = () => {
                   type="button"
                   @click="showPassword = !showPassword"
                   class="eye-btn"
-                  :aria-label="showPassword ? 'Hide password' : 'Show password'"
+                  :aria-label="showPassword ? $t('auth.hide_password') : $t('auth.show_password')"
                 >
-                  <!-- Eye open -->
                   <svg v-if="!showPassword" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                       d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                       d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                   </svg>
-                  <!-- Eye closed -->
                   <svg v-else fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
                       d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21" />
@@ -183,7 +197,7 @@ const submit = () => {
               :disabled="form.processing"
             >
               <span v-if="!form.processing" class="submit-inner">
-                Sign In
+                {{ $t('auth.sign_in') }}
                 <svg fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                     d="M17 8l4 4m0 0l-4 4m4-4H3" />
@@ -195,13 +209,13 @@ const submit = () => {
                   <path class="opacity-75" fill="currentColor"
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z" />
                 </svg>
-                Signing in...
+                {{ $t('auth.signing_in') }}
               </span>
             </button>
 
           </form>
 
-          <p class="copyright">© {{ currentYear }} Online මුදලාලි. All rights reserved.</p>
+          <p class="copyright">© {{ currentYear }} Online මුදලාලි. {{ $t('auth.copyright').replace('© {year} Online මුදලාලි. ', '') }}</p>
         </div>
       </div>
 
@@ -210,7 +224,6 @@ const submit = () => {
 </template>
 
 <style scoped>
-/* ── Base ── */
 .login-root {
   display: flex;
   height: 100vh;
@@ -219,9 +232,6 @@ const submit = () => {
   font-family: 'Figtree', 'Inter', system-ui, sans-serif;
 }
 
-/* ════════════════════════════════
-   LEFT PANEL
-════════════════════════════════ */
 .left-panel {
   display: none;
   position: relative;
@@ -240,11 +250,7 @@ const submit = () => {
   background-size: 40px 40px;
 }
 
-.orb {
-  position: absolute;
-  border-radius: 50%;
-  pointer-events: none;
-}
+.orb { position: absolute; border-radius: 50%; pointer-events: none; }
 .orb-1 {
   top: -120px; left: -120px;
   width: 560px; height: 560px;
@@ -256,12 +262,8 @@ const submit = () => {
   background: radial-gradient(circle, rgba(168,85,247,0.14) 0%, transparent 65%);
 }
 
-.left-content {
-  position: relative;
-  z-index: 2;
-}
+.left-content { position: relative; z-index: 2; }
 
-/* Badge */
 .badge {
   display: inline-flex; align-items: center; gap: 8px;
   background: rgba(255,255,255,0.06);
@@ -270,265 +272,96 @@ const submit = () => {
   padding: 7px 16px;
   margin-bottom: 28px;
 }
-.badge-dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  background: #6ee7b7;
-  box-shadow: 0 0 6px #6ee7b7;
-}
-.badge-text {
-  font-size: 11px;
-  font-weight: 500;
-  color: rgba(255,255,255,0.55);
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-}
+.badge-dot { width: 7px; height: 7px; border-radius: 50%; background: #6ee7b7; box-shadow: 0 0 6px #6ee7b7; }
+.badge-text { font-size: 11px; font-weight: 500; color: rgba(255,255,255,0.55); letter-spacing: 0.1em; text-transform: uppercase; }
 
-/* Hero */
 .hero-title {
   font-size: clamp(36px, 4vw, 56px);
-  font-weight: 700;
-  line-height: 1.1;
-  color: #fff;
-  letter-spacing: -0.03em;
-  margin-bottom: 20px;
+  font-weight: 700; line-height: 1.1;
+  color: #fff; letter-spacing: -0.03em; margin-bottom: 20px;
 }
 .hero-title em {
   font-style: normal;
   background: linear-gradient(135deg, #a78bfa 0%, #6366f1 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
 }
 
-.hero-sub {
-  font-size: 15px;
-  color: rgba(255,255,255,0.42);
-  line-height: 1.75;
-  max-width: 360px;
-  margin-bottom: 48px;
-  font-weight: 400;
-}
+.hero-sub { font-size: 15px; color: rgba(255,255,255,0.42); line-height: 1.75; max-width: 360px; margin-bottom: 48px; }
 
-/* Stats */
-.stats-row {
-  display: flex;
-  align-items: center;
-  gap: 28px;
-}
+.stats-row { display: flex; align-items: center; gap: 28px; }
 .stat { display: flex; flex-direction: column; gap: 4px; }
-.stat-num {
-  font-size: 20px;
-  font-weight: 700;
-  color: #fff;
-  letter-spacing: -0.02em;
-}
-.stat-lbl {
-  font-size: 11px;
-  color: rgba(255,255,255,0.32);
-  text-transform: uppercase;
-  letter-spacing: 0.06em;
-}
-.stat-divider {
-  width: 1px; height: 36px;
-  background: rgba(255,255,255,0.08);
-}
+.stat-num { font-size: 20px; font-weight: 700; color: #fff; letter-spacing: -0.02em; }
+.stat-lbl { font-size: 11px; color: rgba(255,255,255,0.32); text-transform: uppercase; letter-spacing: 0.06em; }
+.stat-divider { width: 1px; height: 36px; background: rgba(255,255,255,0.08); }
 
-/* ════════════════════════════════
-   RIGHT PANEL
-════════════════════════════════ */
 .right-panel {
-  width: 100%;
-  background: #fff;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  padding: 32px 24px;
-  overflow-y: auto;
-}
-@media (min-width: 1024px) {
-  .right-panel { width: 480px; flex-shrink: 0; }
-}
-
-.form-card {
-  width: 100%;
-  max-width: 380px;
-}
-
-/* Logo */
-.logo-row {
-  display: flex; align-items: center; gap: 12px;
-  margin-bottom: 40px;
-}
-.logo-icon {
-  width: 38px; height: 38px;
-  background: #0a0a0f;
-  border-radius: 10px;
+  width: 100%; background: #fff;
   display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
+  padding: 32px 24px; overflow-y: auto;
 }
-.logo-icon svg {
-  width: 18px; height: 18px;
-  stroke: #fff;
-}
-.logo-name {
-  font-size: 15px;
-  font-weight: 700;
-  color: #0a0a0f;
-  letter-spacing: -0.01em;
-  line-height: 1.2;
-}
-.logo-sub {
-  font-size: 11px;
-  color: #9ca3af;
-  font-weight: 400;
-  margin-top: 1px;
-}
+@media (min-width: 1024px) { .right-panel { width: 480px; flex-shrink: 0; } }
 
-/* Headings */
-.form-title {
-  font-size: 28px;
-  font-weight: 700;
-  color: #0a0a0f;
-  letter-spacing: -0.025em;
-  margin-bottom: 6px;
-}
-.form-sub {
-  font-size: 14px;
-  color: #9ca3af;
-  margin-bottom: 32px;
-  font-weight: 400;
-}
+.form-card { width: 100%; max-width: 380px; }
 
-/* Status */
+.logo-row { display: flex; align-items: center; gap: 12px; margin-bottom: 40px; }
+.logo-icon {
+  width: 38px; height: 38px; background: #0a0a0f; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.logo-icon svg { width: 18px; height: 18px; stroke: #fff; }
+.logo-name { font-size: 15px; font-weight: 700; color: #0a0a0f; letter-spacing: -0.01em; line-height: 1.2; }
+.logo-sub { font-size: 11px; color: #9ca3af; font-weight: 400; margin-top: 1px; }
+
+.form-title { font-size: 28px; font-weight: 700; color: #0a0a0f; letter-spacing: -0.025em; margin-bottom: 6px; }
+.form-sub { font-size: 14px; color: #9ca3af; margin-bottom: 32px; }
+
 .status-msg {
   display: flex; align-items: center; gap: 10px;
-  background: #f0fdf4;
-  border: 1px solid #bbf7d0;
-  border-radius: 10px;
-  padding: 12px 16px;
-  margin-bottom: 24px;
-  font-size: 13px;
-  font-weight: 500;
-  color: #166534;
+  background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 10px;
+  padding: 12px 16px; margin-bottom: 24px; font-size: 13px; font-weight: 500; color: #166534;
 }
 .status-icon { width: 16px; height: 16px; flex-shrink: 0; }
 
-/* Form */
 .login-form { display: flex; flex-direction: column; gap: 20px; }
-
 .field { display: flex; flex-direction: column; gap: 8px; }
-
-.field-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.field-label {
-  font-size: 11px;
-  font-weight: 600;
-  color: #374151;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-}
-.forgot-link {
-  font-size: 12px;
-  color: #6366f1;
-  text-decoration: none;
-  font-weight: 500;
-  transition: color 0.15s;
-}
+.field-header { display: flex; justify-content: space-between; align-items: center; }
+.field-label { font-size: 11px; font-weight: 600; color: #374151; letter-spacing: 0.07em; text-transform: uppercase; }
+.forgot-link { font-size: 12px; color: #6366f1; text-decoration: none; font-weight: 500; transition: color 0.15s; }
 .forgot-link:hover { color: #4338ca; }
-
 .field-wrap { position: relative; }
-
-.field-icon {
-  position: absolute;
-  left: 14px; top: 50%;
-  transform: translateY(-50%);
-  width: 16px; height: 16px;
-  stroke: #d1d5db;
-  pointer-events: none;
-  flex-shrink: 0;
-}
-
+.field-icon { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); width: 16px; height: 16px; stroke: #d1d5db; pointer-events: none; }
 .field-input {
-  width: 100%;
-  height: 46px;
-  border: 1.5px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 0 14px 0 40px;
-  font-size: 14px;
-  color: #0a0a0f;
-  background: #fafafa;
-  font-family: inherit;
-  outline: none;
-  transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
+  width: 100%; height: 46px; border: 1.5px solid #e5e7eb; border-radius: 10px;
+  padding: 0 14px 0 40px; font-size: 14px; color: #0a0a0f; background: #fafafa;
+  font-family: inherit; outline: none; transition: border-color 0.15s, background 0.15s, box-shadow 0.15s;
 }
 .field-input::placeholder { color: #d1d5db; }
-.field-input:focus {
-  border-color: #6366f1;
-  background: #fff;
-  box-shadow: 0 0 0 3px rgba(99,102,241,0.08);
-}
+.field-input:focus { border-color: #6366f1; background: #fff; box-shadow: 0 0 0 3px rgba(99,102,241,0.08); }
 .field-input--padded { padding-right: 44px; }
 .field-input--error { border-color: #f87171; }
 .field-input--error:focus { box-shadow: 0 0 0 3px rgba(248,113,113,0.1); }
-
 .eye-btn {
-  position: absolute;
-  right: 12px; top: 50%;
-  transform: translateY(-50%);
-  background: none; border: none; cursor: pointer;
-  padding: 4px; color: #9ca3af;
-  display: flex; align-items: center; justify-content: center;
-  border-radius: 6px;
-  transition: color 0.15s;
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer; padding: 4px; color: #9ca3af;
+  display: flex; align-items: center; justify-content: center; border-radius: 6px; transition: color 0.15s;
 }
 .eye-btn:hover { color: #6b7280; }
 .eye-btn svg { width: 17px; height: 17px; }
-
 .field-error { font-size: 12px; color: #ef4444; margin-top: -4px; }
 
-/* Submit */
 .submit-btn {
-  width: 100%;
-  height: 48px;
-  background: #0a0a0f;
-  border: none;
-  border-radius: 10px;
-  color: #fff;
-  font-size: 14px;
-  font-weight: 600;
-  font-family: inherit;
-  cursor: pointer;
-  letter-spacing: 0.01em;
-  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
-  margin-top: 4px;
-  box-shadow: 0 2px 8px rgba(10,10,15,0.18);
+  width: 100%; height: 48px; background: #0a0a0f; border: none; border-radius: 10px;
+  color: #fff; font-size: 14px; font-weight: 600; font-family: inherit; cursor: pointer;
+  letter-spacing: 0.01em; transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  margin-top: 4px; box-shadow: 0 2px 8px rgba(10,10,15,0.18);
 }
-.submit-btn:hover:not(:disabled) {
-  background: #1e1b4b;
-  box-shadow: 0 4px 16px rgba(10,10,15,0.28);
-  transform: translateY(-1px);
-}
+.submit-btn:hover:not(:disabled) { background: #1e1b4b; box-shadow: 0 4px 16px rgba(10,10,15,0.28); transform: translateY(-1px); }
 .submit-btn:active:not(:disabled) { transform: translateY(0); }
 .submit-btn--loading, .submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
-
-.submit-inner {
-  display: flex; align-items: center; justify-content: center; gap: 8px;
-}
+.submit-inner { display: flex; align-items: center; justify-content: center; gap: 8px; }
 .submit-inner svg { width: 16px; height: 16px; }
-
 .spin { animation: spin 0.9s linear infinite; }
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 
-/* Copyright */
-.copyright {
-  text-align: center;
-  font-size: 12px;
-  color: #d1d5db;
-  margin-top: 32px;
-  font-weight: 400;
-}
+.copyright { text-align: center; font-size: 12px; color: #d1d5db; margin-top: 32px; }
 </style>

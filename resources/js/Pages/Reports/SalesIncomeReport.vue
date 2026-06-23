@@ -15,9 +15,9 @@
                 @click="goToReportsTab"
                 class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
               >
-                ← Back
+                ← {{ $t('common.back') }}
               </button>
-              <h1 class="text-3xl font-bold text-gray-800">Order History Report</h1>
+              <h1 class="text-3xl font-bold text-gray-800">{{ $t('reports.order_history') }}</h1>
             </div>
           </div>
 
@@ -180,7 +180,7 @@
               v-if="!salesIncomeList.data || salesIncomeList.data.length === 0"
               class="text-center text-gray-500 py-8"
             >
-              No sales income data for selected date range
+              {{ $t('reports.no_data') }}
             </div>
 
             <!-- Pagination -->
@@ -189,8 +189,7 @@
               class="mt-6 flex justify-between items-center"
             >
               <div class="text-sm text-gray-600">
-                Showing {{ salesIncomeList.from }} to {{ salesIncomeList.to }} of
-                {{ salesIncomeList.total }} transactions
+                {{ $t('common.showing') }} {{ salesIncomeList.from }} {{ $t('common.of') }} {{ salesIncomeList.total }} {{ $t('common.results') }}
               </div>
               <div class="flex gap-2">
                 <template v-for="(link, index) in salesIncomeList.links" :key="index">
@@ -271,6 +270,8 @@ import { Head, router, usePage } from "@inertiajs/vue3";
 import { ref, computed } from "vue";
 import { logActivity } from "@/composables/useActivityLog";
 import { useDashboardNavigation } from "@/composables/useDashboardNavigation";
+import { useI18n } from "vue-i18n";
+useI18n();
 
 const { goToReportsTab } = useDashboardNavigation();
 

@@ -10,9 +10,9 @@
             @click="$inertia.visit(route('dashboard'))"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-4xl font-bold text-gray-800">Products</h1>
+          <h1 class="text-4xl font-bold text-gray-800">{{ $t('products.title') }}</h1>
         </div>
         <!-- Action Buttons -->
         <div class="flex gap-3">
@@ -21,14 +21,14 @@
             @click="$inertia.visit(route('good-receive-notes.create'))"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-green-600 text-white hover:bg-green-700 hover:scale-105 transition-all duration-300"
           >
-            📦 Add GRN
+            📦 {{ $t('products.add_grn') }}
           </button>
           <!-- Add New Product Button -->
           <button
             @click="openCreateModal"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-blue-600 text-white hover:bg-blue-700 hover:scale-105 transition-all duration-300"
           >
-            + Add Product
+            + {{ $t('products.add') }}
           </button>
         </div>
       </div>
@@ -60,7 +60,7 @@
           <input
             v-model="search"
             type="text"
-            placeholder="Search by product name, brand, or category..."
+            :placeholder="$t('products.search_placeholder')"
             class="w-full rounded-[8px] border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -75,22 +75,22 @@
           <!-- Table Header -->
           <thead>
             <tr class="border-b-2 border-blue-600">
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">#</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Product Info</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.number') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('products.product_info') }}</th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm">
-                Brand/Category
+                {{ $t('fields.brand') }}/{{ $t('fields.category') }}
               </th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-right">
-                Price ({{ currencySymbol.currency }})
+                {{ $t('fields.price') }} ({{ currencySymbol.currency }})
               </th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Qty
+                {{ $t('fields.qty') }}
               </th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Status
+                {{ $t('fields.status') }}
               </th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Actions
+                {{ $t('common.actions') }}
               </th>
             </tr>
           </thead>
@@ -115,7 +115,7 @@
                   <div class="font-semibold text-gray-900">{{ product.name }}</div>
                   <!-- <div class="text-xs text-gray-600">Barcode: {{ product.barcode }}</div> -->
                   <div class="text-xs text-gray-500" v-if="product.code">
-                    Code: {{ product.code }}
+                    {{ $t('fields.code') }}: {{ product.code }}
                   </div>
                 </div>
               </td>
@@ -140,8 +140,8 @@
               <td class="px-4 py-4 text-right">
                 <div class="space-y-1">
                   <div class="text-sm font-semibold text-blue-700">
-                    Retail: {{ Number(product.retail_price ?? 0).toFixed(2) }} <br />
-                    Wholesale: {{ Number(product.wholesale_price ?? 0).toFixed(2) }}
+                    {{ $t('fields.retail_price') }}: {{ Number(product.retail_price ?? 0).toFixed(2) }} <br />
+                    {{ $t('fields.wholesale_price') }}: {{ Number(product.wholesale_price ?? 0).toFixed(2) }}
                   </div>
                   <!-- <div class="text-xs text-gray-600">
                     Cost: {{ product.purchase_price || "0.00" }}
@@ -167,7 +167,7 @@
                     <span class="inline-flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-orange-50 to-red-50 border border-orange-200 rounded-full text-xs font-semibold text-orange-700 shadow-sm">
                       <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                         <path fill-rule="evenodd" d="M13.477 14.89A6 6 0 15.838 5.5H16a.75.75 0 01.75.75v1.5a.75.75 0 01-1.5 0V7h-.75a4.5 4.5 0 110 9h.75v-1.5a.75.75 0 011.5 0v1.5a.75.75 0 01-.75.75h-.162z" clip-rule="evenodd"/>
-                      </svg>Low
+                      </svg>{{ $t('fields.low_stock') }}
                       {{ product.shop_low_stock_margin || 0 }}
                     </span>
                   </div>
@@ -187,10 +187,10 @@
                 >
                   {{
                     product.status == 1
-                      ? "Active"
+                      ? $t('fields.active')
                       : product.status == 0
-                      ? "Inactive"
-                      : "Default"
+                      ? $t('fields.inactive')
+                      : $t('fields.status')
                   }}
                 </span>
               </td>
@@ -201,7 +201,7 @@
                     @click="openViewModal(product)"
                     class="px-4 py-2 text-xs font-medium text-white bg-green-600 rounded-[5px] hover:bg-green-700 hover:scale-105 transition-all duration-300"
                   >
-                    View
+                    {{ $t('common.view') }}
                   </button>
                   <button
                     @click="openEditModal(product)"
@@ -213,13 +213,13 @@
                         : 'text-white bg-blue-600 hover:bg-blue-700 hover:scale-105',
                     ]"
                   >
-                    Edit
+                    {{ $t('common.edit') }}
                   </button>
                   <button
                     @click="openDuplicateModal(product)"
                     class="px-4 py-2 text-xs font-medium text-white bg-purple-600 rounded-[5px] hover:bg-purple-700 hover:scale-105 transition-all duration-300"
                   >
-                    Duplicate
+                    {{ $t('common.duplicate') }}
                   </button>
                 </div>
               </td>
@@ -227,7 +227,7 @@
             <!-- Empty State Message -->
             <tr v-if="!products.data || products.data.length === 0">
               <td colspan="7" class="px-6 py-8 text-center text-gray-500 font-medium">
-                No products found
+                {{ $t('products.no_products') }}
               </td>
             </tr>
           </tbody>
@@ -239,8 +239,7 @@
           v-if="products.links"
         >
           <div class="text-sm text-gray-600 font-medium">
-            Showing {{ products.from }} to {{ products.to }} of
-            {{ products.total }} results
+            {{ $t('common.showing') }} {{ products.from }} {{ $t('common.to') }} {{ products.to }} {{ $t('common.of') }} {{ products.total }} {{ $t('common.results') }}
           </div>
           <div class="flex space-x-2">
             <button
@@ -325,6 +324,9 @@
 
 import { ref, watch } from "vue";
 import { router } from "@inertiajs/vue3";
+import { useI18n } from "vue-i18n";
+
+useI18n();
 import { logActivity } from "@/composables/useActivityLog";
 import ProductCreateModal from "./Components/ProductCreateModal.vue";
 import ProductViewModal from "./Components/ProductViewModal.vue";

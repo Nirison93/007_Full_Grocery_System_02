@@ -12,9 +12,9 @@
                 @click="$inertia.visit(route('dashboard'))"
                 class="px-4 py-2 bg-accent hover:bg-accent text-white rounded-lg transition flex items-center gap-2"
               >
-                Back
+                ← {{ $t('common.back') }}
               </button>
-              <h1 class="text-3xl font-bold text-white">⚠️ Products Low Stock (Store & Shop)</h1>
+              <h1 class="text-3xl font-bold text-white">⚠️ {{ $t('reports.shop_low_stock') }} (Store & Shop)</h1>
             </div>
             <p class="text-gray-400">Products that are at or below configured low-stock margins.</p>
           </div>
@@ -90,7 +90,7 @@
             <table class="w-full">
               <thead class="bg-gray-700">
                 <tr>
-                  <th class="px-4 py-3 text-left text-sm font-semibold text-gray-300">#</th>
+                  <th class="px-4 py-3 text-left text-sm font-semibold text-gray-300">{{ $t('fields.number') }}</th>
                   <th class="px-4 py-3 text-left text-sm font-semibold text-gray-300">Product</th>
                   <th class="px-4 py-3 text-left text-sm font-semibold text-gray-300">Barcode</th>
                   <th class="px-4 py-3 text-right text-sm font-semibold text-gray-300">Shop Qty</th>
@@ -117,7 +117,7 @@
             </table>
           </div>
 
-          <div v-if="products.length === 0" class="text-center text-gray-400 py-8">No low stock products found.</div>
+          <div v-if="products.length === 0" class="text-center text-gray-400 py-8">{{ $t('reports.no_data') }}</div>
         </div>
       </div>
     </div>
@@ -129,6 +129,8 @@ import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, router } from '@inertiajs/vue3';
 import { computed } from 'vue';
 import { logActivity } from '@/composables/useActivityLog';
+import { useI18n } from "vue-i18n";
+useI18n();
 
 const props = defineProps({
   products: { type: Array, default: () => [] },

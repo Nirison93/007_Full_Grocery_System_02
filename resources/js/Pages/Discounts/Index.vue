@@ -10,16 +10,16 @@
             @click="goToShopsTab"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-4xl font-bold text-gray-800">Discounts</h1>
+          <h1 class="text-4xl font-bold text-gray-800">{{ $t('discounts.title') }}</h1>
         </div>
         <!-- Add Discount Button -->
         <button
           @click="openCreateModal"
           class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200"
         >
-          + Add Discount
+          + {{ $t('discounts.add') }}
         </button>
       </div>
 
@@ -29,21 +29,21 @@
           <!-- Table Header -->
           <thead>
             <tr class="border-b-2 border-blue-600">
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">#</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Name</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.number') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.name') }}</th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Type
+                {{ $t('discounts.discount_type') }}
               </th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-right">
-                Value
+                {{ $t('fields.discount') }}
               </th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Start Date</th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm">End Date</th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Status
+                {{ $t('fields.status') }}
               </th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Actions
+                {{ $t('common.actions') }}
               </th>
             </tr>
           </thead>
@@ -76,7 +76,7 @@
                       : 'bg-orange-500 text-white'
                   "
                 >
-                  {{ discount.type == 0 ? "Percentage (%)" : "Fixed" }}
+                  {{ discount.type == 0 ? $t('discounts.percentage') : $t('discounts.fixed') }}
                 </span>
               </td>
               <!-- Value -->
@@ -111,9 +111,9 @@
                 >
                   {{
                     discount.status == 1
-                      ? "Active"
+                      ? $t('fields.active')
                       : discount.status == 0
-                      ? "Inactive"
+                      ? $t('fields.inactive')
                       : "Default"
                   }}
                 </span>
@@ -131,7 +131,7 @@
                         : 'text-white bg-blue-600 hover:bg-blue-700',
                     ]"
                   >
-                    Edit
+                    {{ $t('common.edit') }}
                   </button>
                 </div>
               </td>
@@ -139,7 +139,7 @@
             <!-- Empty State Message -->
             <tr v-if="!discounts.data || discounts.data.length === 0">
               <td colspan="8" class="px-6 py-8 text-center text-gray-500 font-medium">
-                No discounts found
+                {{ $t('discounts.no_discounts') }}
               </td>
             </tr>
           </tbody>
@@ -151,8 +151,8 @@
           v-if="discounts.links"
         >
           <div class="text-sm text-gray-600">
-            Showing {{ discounts.from }} to {{ discounts.to }} of
-            {{ discounts.total }} results
+            {{ $t('common.showing') }} {{ discounts.from }} {{ $t('common.of') }}
+            {{ discounts.total }} {{ $t('common.results') }}
           </div>
           <div class="flex space-x-2">
             <button
@@ -189,10 +189,13 @@
 
 <script setup>
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { router, usePage } from "@inertiajs/vue3";
 import DiscountCreateModal from "./Components/DiscountCreateModal.vue";
 import DiscountEditModal from "./Components/DiscountEditModal.vue";
 import { useDashboardNavigation } from "@/composables/useDashboardNavigation";
+
+useI18n();
 
 const page = usePage();
 

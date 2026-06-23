@@ -1,13 +1,10 @@
 <script setup>
-/**
- * Dashboard Component Script
- *
- * Main dashboard for POS system users
- * Uses AppLayout for consistent navigation
- */
 import AppLayout from "@/Layouts/AppLayout.vue";
-import { Head, Link, usePage, router } from "@inertiajs/vue3";
+import { Head, Link, usePage } from "@inertiajs/vue3";
 import { computed, ref, onMounted } from "vue";
+import { useI18n } from "vue-i18n";
+
+useI18n();
 
 const page = usePage();
 const pageTitle = computed(() => {
@@ -15,10 +12,8 @@ const pageTitle = computed(() => {
   return appName;
 });
 
-// Role-based tab access and defaults
 const isTabAllowed = (tab, userRole) => {
   if (tab === "products") return [0, 1, 3].includes(userRole);
-//   if (tab === "stores") return [0, 1, 3, 4].includes(userRole);
   if (tab === "shops") return [0, 1, 2, 3].includes(userRole);
   if (tab === "reports") return [0, 1, 2, 3].includes(userRole);
   if (tab === "settings") return ![2, 3].includes(userRole);
@@ -32,17 +27,14 @@ const getDefaultTab = () => {
   return "shops";
 };
 
-// Track active tab
 const activeTab = ref(getDefaultTab());
 
-// Switch tabs and persist selection
 const setActiveTab = (tab) => {
   activeTab.value = tab;
   localStorage.setItem("activeTab", tab);
   sessionStorage.setItem("fromNavigation", "true");
 };
 
-// Set default tab on mount
 onMounted(() => {
   const savedTab = localStorage.getItem("activeTab");
   const fromNavigation = sessionStorage.getItem("fromNavigation");
@@ -59,16 +51,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <!-- Page Title for Browser Tab -->
   <Head :title="pageTitle" />
 
   <AppLayout>
     <div class="min-h-screen overflow-y-auto bg-gray-50 pb-12">
-      <!-- Header -->
-      <!-- <div class="px-4 sm:px-6 lg:px-8 py-8 sm:py-10 bg-white border-b border-gray-200">
-        <h1 class="text-4xl font-bold text-gray-900 tracking-tight">Dashboard</h1>
-        <p class="text-gray-600 mt-2 font-medium">Welcome back to your POS system</p>
-      </div> -->
 
       <!-- Tab Navigation -->
       <div class="px-4 sm:px-6 lg:px-8 mb-8 pt-6">
@@ -84,23 +70,8 @@ onMounted(() => {
             ]"
           >
             <span>📦</span>
-            <span class="hidden sm:inline">Products</span>
+            <span class="hidden sm:inline">{{ $t('products.title') }}</span>
           </button>
-
-          <!-- <button
-            type="button"
-            v-if="[0, 1, 3, 4].includes($page.props.auth.user.role)"
-            @click="setActiveTab('stores')"
-            :class="[
-              activeTab === 'stores'
-                ? 'bg-gray-900 text-white rounded-lg shadow-sm border border-gray-900'
-                : 'text-gray-600 rounded-lg border border-transparent hover:text-gray-900 hover:bg-white hover:border-gray-200',
-              'px-4 py-2.5 font-medium text-sm whitespace-nowrap transition-all duration-200 flex items-center gap-2'
-            ]"
-          >
-            <span>🛒</span>
-            <span class="hidden sm:inline">Stores</span>
-          </button> -->
 
           <button
             type="button"
@@ -114,7 +85,7 @@ onMounted(() => {
             ]"
           >
             <span>💰</span>
-            <span class="hidden sm:inline">Shops</span>
+            <span class="hidden sm:inline">{{ $t('dashboard.sales_management') }}</span>
           </button>
 
           <button
@@ -128,7 +99,7 @@ onMounted(() => {
             ]"
           >
             <span>📊</span>
-            <span class="hidden sm:inline">Reports</span>
+            <span class="hidden sm:inline">{{ $t('reports.title') }}</span>
           </button>
 
           <button
@@ -142,7 +113,7 @@ onMounted(() => {
             ]"
           >
             <span>🔧</span>
-            <span class="hidden sm:inline">Settings</span>
+            <span class="hidden sm:inline">{{ $t('dashboard.settings') }}</span>
           </button>
         </div>
       </div>
@@ -152,10 +123,8 @@ onMounted(() => {
         v-if="activeTab === 'products' && [0, 1, 3].includes($page.props.auth.user.role)"
         class="px-4 sm:px-6 lg:px-8 mb-8"
       >
-        <h3
-          class="text-lg font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-300 flex items-center gap-2"
-        >
-          <span class="text-2xl">📦</span> Inventory Management
+        <h3 class="text-lg font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-300 flex items-center gap-2">
+          <span class="text-2xl">📦</span> {{ $t('dashboard.inventory_management') }}
         </h3>
         <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           <Link
@@ -164,8 +133,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">📦</div>
-            <div class="font-semibold text-gray-900 mb-1">Products</div>
-            <div class="text-sm text-gray-600">Create and manage products</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('products.title') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('products.create_manage') }}</div>
           </Link>
 
           <Link
@@ -174,8 +143,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">⭐</div>
-            <div class="font-semibold text-gray-900 mb-1">Brands</div>
-            <div class="text-sm text-gray-600">Manage product brands</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('brands.title') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('brands.manage_product_brands') }}</div>
           </Link>
 
           <Link
@@ -184,8 +153,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">🏷️</div>
-            <div class="font-semibold text-gray-900 mb-1">Categories</div>
-            <div class="text-sm text-gray-600">Organize products by category</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('categories.title') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('categories.organize') }}</div>
           </Link>
 
           <Link
@@ -194,18 +163,18 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">🧩</div>
-            <div class="font-semibold text-gray-900 mb-1">Types</div>
-            <div class="text-sm text-gray-600">Manage product types</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('types.title') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('types.manage_product_types') }}</div>
           </Link>
 
           <Link
             v-if="[0, 1].includes($page.props.auth.user.role)"
             :href="route('measurement-units.index')"
-            class=" hidden  group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
+            class="hidden group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">📏</div>
-            <div class="font-semibold text-gray-900 mb-1">Units</div>
-            <div class="text-sm text-gray-600">Manage measurement units</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('units.title') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('units.manage') }}</div>
           </Link>
 
           <Link
@@ -214,8 +183,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">🚚</div>
-            <div class="font-semibold text-gray-900 mb-1">Suppliers</div>
-            <div class="text-sm text-gray-600">Manage supplier information</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('suppliers.title') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('suppliers.manage_info') }}</div>
           </Link>
 
           <Link
@@ -224,81 +193,19 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">📦</div>
-            <div class="font-semibold text-gray-900 mb-1">GRN</div>
-            <div class="text-sm text-gray-600">View GRN data & create notes</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('grn.title') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('grn.view_create') }}</div>
           </Link>
         </div>
       </div>
 
-      <!-- Stores Section -->
-      <!-- <div
-        v-if="activeTab === 'stores' && [0, 1, 3, 4].includes($page.props.auth.user.role)"
-        class="px-4 sm:px-6 lg:px-8 mb-8"
-      >
-        <h3
-          class="text-lg font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-300 flex items-center gap-2"
-        >
-          <span class="text-2xl">🛒</span> Warehouse & Inventory Management
-        </h3>
-        <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-
-
-
-
-          <Link
-            v-if="[0, 1, 3].includes($page.props.auth.user.role)"
-            :href="route('good-receive-notes.index')"
-              class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
-          >
-            <div class="text-3xl mb-3">📦</div>
-            <div class="font-semibold text-gray-900 mb-1">
-              Goods Received
-            </div>
-            <div class="text-sm text-gray-600">
-              Track received goods
-            </div>
-          </Link>
-
-          <Link
-            v-if="[0, 1, 3].includes($page.props.auth.user.role)"
-            :href="route('good-receive-note-returns.index')"
-              class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
-          >
-            <div class="text-3xl mb-3">📦</div>
-            <div class="font-semibold text-gray-900 mb-1">Goods Returns</div>
-            <div class="text-sm text-gray-600">
-              Track returned goods
-            </div>
-          </Link>
-
-
-
-          <Link
-            v-if="[0, 1].includes($page.props.auth.user.role)"
-            :href="route('purchase-expenses.index')"
-              class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
-          >
-            <div class="text-3xl mb-3">💸</div>
-            <div class="font-semibold text-gray-900 mb-1">Supplier Payments</div>
-            <div class="text-sm text-gray-600">Track supplier payments</div>
-          </Link>
-
-        </div>
-      </div> -->
-
-      <!-- Shops Section -->
-      <!-- <div
-        v-if="activeTab === 'shops'"
-        class="px-4 sm:px-6 lg:px-8 mb-8"
-      > -->
+      <!-- Shops / Sales Section -->
       <div
-        v-if="activeTab === 'shops' && [0, 1, 2,3].includes($page.props.auth.user.role)"
+        v-if="activeTab === 'shops' && [0, 1, 2, 3].includes($page.props.auth.user.role)"
         class="px-4 sm:px-6 lg:px-8 mb-8"
       >
-        <h3
-          class="text-lg font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-300 flex items-center gap-2"
-        >
-          <span class="text-2xl">💰</span> Sales Management
+        <h3 class="text-lg font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-300 flex items-center gap-2">
+          <span class="text-2xl">💰</span> {{ $t('dashboard.sales_management') }}
         </h3>
         <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           <Link
@@ -307,8 +214,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">👥</div>
-            <div class="font-semibold text-gray-900 mb-1">Customers</div>
-            <div class="text-sm text-gray-600">Manage customers</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('customers.title') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('customers.manage') }}</div>
           </Link>
 
           <Link
@@ -317,8 +224,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">🏷️</div>
-            <div class="font-semibold text-gray-900 mb-1">Discounts</div>
-            <div class="text-sm text-gray-600">Manage discounts</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('discounts.title') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('discounts.manage') }}</div>
           </Link>
 
           <Link
@@ -327,8 +234,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">📊</div>
-            <div class="font-semibold text-gray-900 mb-1">Taxes</div>
-            <div class="text-sm text-gray-600">Manage tax rates</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('taxes.title') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('taxes.manage') }}</div>
           </Link>
 
           <Link
@@ -337,8 +244,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">💳</div>
-            <div class="font-semibold text-gray-900 mb-1">Sales</div>
-            <div class="text-sm text-gray-600">Manage sales transactions</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('sales.title') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('sales.manage') }}</div>
           </Link>
 
           <Link
@@ -347,8 +254,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">📜</div>
-            <div class="font-semibold text-gray-900 mb-1">Sales History</div>
-            <div class="text-sm text-gray-600">View all sales records</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('sales.history') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('sales.view_all') }}</div>
           </Link>
 
           <Link
@@ -357,8 +264,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">📄</div>
-            <div class="font-semibold text-gray-900 mb-1">Quotations</div>
-            <div class="text-sm text-gray-600">Create & manage quotations</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('quotations.title') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('quotations.manage') }}</div>
           </Link>
 
           <Link
@@ -367,19 +274,9 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">✏️</div>
-            <div class="font-semibold text-gray-900 mb-1">Edit Quotations</div>
-            <div class="text-sm text-gray-600">Update quotations</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('quotations.edit') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('quotations.update') }}</div>
           </Link>
-
-          <!-- <Link
-            v-if="[0, 1].includes($page.props.auth.user.role)"
-            :href="route('product-transfer-requests.index')"
-            class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
-          >
-            <div class="text-3xl mb-3">📤</div>
-            <div class="font-semibold text-gray-900 mb-1">Transfer Requests</div>
-            <div class="text-sm text-gray-600">Manage transfer requests</div>
-          </Link> -->
 
           <a
             v-if="[0, 1].includes($page.props.auth.user.role)"
@@ -387,8 +284,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300 block"
           >
             <div class="text-3xl mb-3">🔄</div>
-            <div class="font-semibold text-gray-900 mb-1">Transfer Returns</div>
-            <div class="text-sm text-gray-600">Manage transfer returns</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('sales.transfer_returns') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('sales.manage_transfer_returns') }}</div>
           </a>
 
           <Link
@@ -397,33 +294,29 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">↩️</div>
-            <div class="font-semibold text-gray-900 mb-1">Sales Returns</div>
-            <div class="text-sm text-gray-600">Manage sales returns</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('sales.returns') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('sales.manage_returns') }}</div>
           </Link>
 
-           <Link
+          <Link
             v-if="[0, 1].includes($page.props.auth.user.role)"
             :href="route('reports.expenses')"
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">💸</div>
-            <div class="font-semibold text-gray-900 mb-1">Supplier Payments</div>
-            <div class="text-sm text-gray-600">Payment details & summary</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('sales.supplier_payments') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('sales.payment_summary') }}</div>
           </Link>
         </div>
       </div>
 
       <!-- Report Management -->
       <div
-        v-if="
-          activeTab === 'reports' && [0, 1, 2, 3].includes($page.props.auth.user.role)
-        "
+        v-if="activeTab === 'reports' && [0, 1, 2, 3].includes($page.props.auth.user.role)"
         class="px-4 sm:px-6 lg:px-8 mb-8"
       >
-        <h3
-          class="text-lg font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-300 flex items-center gap-2"
-        >
-          <span class="text-2xl">📊</span> Report Management
+        <h3 class="text-lg font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-300 flex items-center gap-2">
+          <span class="text-2xl">📊</span> {{ $t('dashboard.report_management') }}
         </h3>
         <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
           <Link
@@ -432,17 +325,18 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">🏪</div>
-            <div class="font-semibold text-gray-900 mb-1">Shop Low Stock</div>
-            <div class="text-sm text-gray-600">Products low in shop</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('reports.shop_low_stock') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('reports.shop_low_stock_desc') }}</div>
           </Link>
+
           <Link
             v-if="[0, 1, 3].includes($page.props.auth.user.role)"
             :href="route('reports.low-stock-store')"
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">🏬</div>
-            <div class="font-semibold text-gray-900 mb-1">Store Low Stock</div>
-            <div class="text-sm text-gray-600">Products low in store</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('reports.store_low_stock') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('reports.store_low_stock_desc') }}</div>
           </Link>
 
           <Link
@@ -451,11 +345,9 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">📈</div>
-            <div class="font-semibold text-gray-900 mb-1">Stock Report</div>
-            <div class="text-sm text-gray-600">Current inventory status</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('reports.stock_report') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('reports.stock_report_desc') }}</div>
           </Link>
-
-
 
           <Link
             v-if="[0, 1, 2].includes($page.props.auth.user.role)"
@@ -463,8 +355,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">💰</div>
-            <div class="font-semibold text-gray-900 mb-1">Order History</div>
-            <div class="text-sm text-gray-600">Sales & returns transactions</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('reports.order_history') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('reports.order_history_desc') }}</div>
           </Link>
 
           <Link
@@ -473,8 +365,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">🧾</div>
-            <div class="font-semibold text-gray-900 mb-1">Cash Drawer Report</div>
-            <div class="text-sm text-gray-600">Track open/close sessions by user</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('reports.cash_drawer') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('reports.cash_drawer_desc') }}</div>
           </Link>
 
           <Link
@@ -483,8 +375,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">🔀</div>
-            <div class="font-semibold text-gray-900 mb-1">Product Movements</div>
-            <div class="text-sm text-gray-600">Track stock inbound/outbound</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('reports.product_movements') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('reports.product_movements_desc') }}</div>
           </Link>
 
           <Link
@@ -493,8 +385,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">📊</div>
-            <div class="font-semibold text-gray-900 mb-1">Sales Optimization</div>
-            <div class="text-sm text-gray-600">Movement based insights</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('reports.sales_optimization') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('reports.sales_optimization_desc') }}</div>
           </Link>
 
           <Link
@@ -503,8 +395,8 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">📝</div>
-            <div class="font-semibold text-gray-900 mb-1">Activity Log</div>
-            <div class="text-sm text-gray-600">User activity & audit trail</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('reports.activity_log') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('reports.activity_log_desc') }}</div>
           </Link>
 
           <Link
@@ -513,131 +405,65 @@ onMounted(() => {
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">🔄</div>
-            <div class="font-semibold text-gray-900 mb-1">Sync Report</div>
-            <div class="text-sm text-gray-600">Sync activity logs</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('reports.sync_report') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('reports.sync_report_desc') }}</div>
           </Link>
         </div>
       </div>
-
-      <!-- System Management
-      <div
-        v-if="activeTab === 'system' && [0, 1].includes($page.props.auth.user.role)"
-        class="bg-white rounded-lg p-6 border border-gray-200"
-      >
-        <h3
-          class="text-xl font-semibold text-gray-800 mb-4 pb-3 border-b border-gray-200 flex items-center gap-2"
-        >
-          <span>⚙️</span> System Management
-        </h3>
-        <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-5">
-          <Link
-            v-if="[0, 1].includes($page.props.auth.user.role)"
-            :href="route('users.index')"
-            class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
-          >
-            <div class="text-4xl mb-3">👤</div>
-            <div class="font-semibold text-lg text-gray-800 mb-1">Users</div>
-            <div class="text-sm text-gray-600">Manage system users</div>
-          </Link>
-        </div>
-      </div> -->
 
       <!-- Settings -->
       <div
         v-if="activeTab === 'settings' && ![1, 2, 3].includes($page.props.auth.user.role)"
         class="px-4 sm:px-6 lg:px-8 mb-8"
       >
-        <h3
-          class="text-lg font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-300 flex items-center gap-2"
-        >
-          <span class="text-2xl">🔧</span> Settings
+        <h3 class="text-lg font-bold text-gray-900 mb-6 pb-3 border-b-2 border-gray-300 flex items-center gap-2">
+          <span class="text-2xl">🔧</span> {{ $t('dashboard.settings') }}
         </h3>
         <div class="grid gap-4 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5">
-          <!-- <Link
-            :href="route('settings.company')"
-            class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
-          >
-            <div class="text-4xl mb-3">🏢</div>
-            <div class="font-semibold text-lg text-gray-800 mb-1">
-              Company Information
-            </div>
-            <div class="text-sm text-gray-600">Company information & settings</div>
-          </Link> -->
-
-          <!-- <Link hidden
-            v-if="[0, 1].includes($page.props.auth.user.role)"
-            :href="route('users.index')"
-            class=" group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
-          >
-            <div class="text-3xl mb-3">📏</div>
-            <div class="font-semibold text-gray-900 mb-1">Units</div>
-            <div class="text-sm text-gray-600">Manage measurement units</div>
-          </Link> -->
-
           <Link
             :href="route('settings.app')"
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">⚙️</div>
-            <div class="font-semibold text-gray-900 mb-1">App Settings</div>
-            <div class="text-sm text-gray-600">Configure system settings</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('settings.app_settings') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('settings.app_settings_configure') }}</div>
           </Link>
-          <!-- <Link
-            :href="route('settings.smtp')"
-            class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
-          >
-            <div
-              class="text-4xl mb-3"
-            >
-              📧
-            </div>
-            <div class="font-semibold text-lg text-gray-800 mb-1">SMTP Settings</div>
-            <div class="text-sm text-gray-600">Email server configuration</div>
-          </Link>-->
+
           <Link
             :href="route('settings.sync')"
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">🔄</div>
-            <div class="font-semibold text-gray-900 mb-1">Sync Settings</div>
-            <div class="text-sm text-gray-600">Configure sync options</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('settings.sync_settings') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('settings.sync_settings_desc') }}</div>
           </Link>
-          <!-- <Link
-            :href="route('settings.bill')"
-            class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
-          >
-            <div
-              class="text-4xl mb-3"
-            >
-              🧾
-            </div>
-            <div class="font-semibold text-lg text-gray-800 mb-1">Bill Setting</div>
-            <div class="text-sm text-gray-600">Bill logo, company info, print size</div>
-          </Link> -->
+
           <Link
             v-if="![1].includes($page.props.auth.user.role)"
             :href="route('backup.settings')"
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">💾</div>
-            <div class="font-semibold text-gray-900 mb-1">Database Backup</div>
-            <div class="text-sm text-gray-600">Backup & restore data</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('settings.database_backup') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('settings.database_backup_desc') }}</div>
           </Link>
+
           <Link
             :href="route('settings.bill')"
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">📄</div>
-            <div class="font-semibold text-gray-900 mb-1">Bill Settings</div>
-            <div class="text-sm text-gray-600">Configure bill layout</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('settings.bill_settings') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('settings.bill_settings_desc') }}</div>
           </Link>
+
           <Link
             :href="route('import-export')"
             class="group bg-white p-5 rounded-xl border border-gray-200 shadow-sm hover:shadow-xl hover:border-gray-300 hover:-translate-y-0.5 transition-all duration-300"
           >
             <div class="text-3xl mb-3">📁</div>
-            <div class="font-semibold text-gray-900 mb-1">Import & Export</div>
-            <div class="text-sm text-gray-600">Import/export data</div>
+            <div class="font-semibold text-gray-900 mb-1">{{ $t('settings.import_export') }}</div>
+            <div class="text-sm text-gray-600">{{ $t('settings.import_export_desc') }}</div>
           </Link>
         </div>
       </div>
@@ -646,12 +472,9 @@ onMounted(() => {
 </template>
 
 <style scoped>
-/* Smooth transitions */
 a {
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 300ms;
 }
 </style>
-
-

@@ -9,15 +9,15 @@
             @click="goToShopsTab"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-3xl font-bold text-black">Sales Returns</h1>
+          <h1 class="text-3xl font-bold text-black">{{ $t('sales.returns') }}</h1>
         </div>
         <button
           @click="openCreateModal"
           class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200 shadow-sm"
         >
-          + Add New Sales Return
+          + {{ $t('sales.add_return') }}
         </button>
       </div>
 
@@ -43,17 +43,17 @@
           <table class="w-full text-left">
             <thead class="border-b-2 border-blue-600">
               <tr>
-                <th class="px-6 py-4 text-sm font-semibold text-blue-700">Return No</th>
-                <th class="px-6 py-4 text-sm font-semibold text-blue-700">Date</th>
-                <th class="px-6 py-4 text-sm font-semibold text-blue-700">Customer</th>
+                <th class="px-6 py-4 text-sm font-semibold text-blue-700">{{ $t('sales.return_no') }}</th>
+                <th class="px-6 py-4 text-sm font-semibold text-blue-700">{{ $t('fields.date') }}</th>
+                <th class="px-6 py-4 text-sm font-semibold text-blue-700">{{ $t('fields.customer') }}</th>
                 <th class="px-6 py-4 text-sm font-semibold text-blue-700 text-center">
-                  Return Type
+                  {{ $t('fields.return_type') }}
                 </th>
                 <th class="px-6 py-4 text-sm font-semibold text-blue-700 text-center">
-                  Products
+                  {{ $t('products.title') }}
                 </th>
                 <th class="px-6 py-4 text-sm font-semibold text-blue-700 text-center">
-                  Actions
+                  {{ $t('common.actions') }}
                 </th>
               </tr>
             </thead>
@@ -117,7 +117,7 @@
                     @click="openViewModal(returnItem)"
                     class="px-4 py-1.5 text-white bg-green-600 rounded-[5px] hover:bg-green-700 transition font-medium text-sm"
                   >
-                    View
+                    {{ $t('common.view') }}
                   </button>
                   <a
                     :href="route('return.export.bill.pdf', returnItem.id)"
@@ -130,7 +130,7 @@
               </tr>
               <tr v-if="!returns.data || returns.data.length === 0">
                 <td colspan="6" class="px-6 py-8 text-center text-gray-500">
-                  No Product Returns found
+                  {{ $t('sales.no_returns') }}
                 </td>
               </tr>
             </tbody>
@@ -143,7 +143,7 @@
           v-if="returns.links && returns.links.length > 3"
         >
           <div class="text-sm text-gray-700 font-medium">
-            Showing {{ returns.from }} to {{ returns.to }} of {{ returns.total }} results
+            {{ $t('common.showing') }} {{ returns.from }} {{ $t('common.to') }} {{ returns.to }} {{ $t('common.of') }} {{ returns.total }} {{ $t('common.results') }}
           </div>
           <div class="flex space-x-2">
             <button
@@ -187,11 +187,14 @@
 <script setup>
 import { onUnmounted, ref, watch } from "vue";
 import { Head, router } from "@inertiajs/vue3";
+import { useI18n } from "vue-i18n";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import ReturnDetailsModal from "./Components/ReturnDetailsModal.vue";
 import ReturnCreateModal from "./Components/ReturnCreateModal.vue";
 import { logActivity } from "@/composables/useActivityLog";
 import { useDashboardNavigation } from "@/composables/useDashboardNavigation";
+
+useI18n();
 
 const { goToShopsTab } = useDashboardNavigation();
 

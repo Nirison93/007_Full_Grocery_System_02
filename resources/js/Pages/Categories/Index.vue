@@ -10,16 +10,16 @@
             @click="$inertia.visit(route('dashboard'))"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-4xl font-bold text-gray-800">Categories</h1>
+          <h1 class="text-4xl font-bold text-gray-800">{{ $t('categories.title') }}</h1>
         </div>
         <!-- Add New Category Button -->
         <button
           @click="openCreateModal"
           class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-blue-600 text-white shadow-lg hover:bg-blue-700 hover:shadow-xl hover:scale-105 transition-all duration-300"
         >
-          + Add Category
+          + {{ $t('categories.add') }}
         </button>
       </div>
 
@@ -34,7 +34,7 @@
           <input
             v-model="search"
             type="text"
-            placeholder="Search categories by name or parent category..."
+            :placeholder="$t('common.search')"
             class="w-full rounded-[8px] border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -48,14 +48,14 @@
           <!-- Table Header -->
           <thead>
             <tr class="border-b-2 border-blue-600">
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">#</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Category Name</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Parent Category</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.number') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.name') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.name') }}</th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Status
+                {{ $t('fields.status') }}
               </th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Actions
+                {{ $t('common.actions') }}
               </th>
             </tr>
           </thead>
@@ -96,9 +96,9 @@
                 >
                   {{
                     category.status == 1
-                      ? "Active"
+                      ? $t('fields.active')
                       : category.status == 0
-                      ? "Inactive"
+                      ? $t('fields.inactive')
                       : "Default"
                   }}
                 </span>
@@ -116,7 +116,7 @@
                         : 'text-white bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:scale-105',
                     ]"
                   >
-                    Edit
+                    {{ $t('common.edit') }}
                   </button>
                 </div>
               </td>
@@ -124,7 +124,7 @@
             <!-- Empty State Message -->
             <tr v-if="!categories.data || categories.data.length === 0">
               <td colspan="5" class="px-6 py-8 text-center text-gray-500 font-medium">
-                No categories found
+                {{ $t('categories.no_categories') }}
               </td>
             </tr>
           </tbody>
@@ -133,7 +133,7 @@
         <!-- Pagination -->
         <div class="flex items-center justify-between px-6 py-4 mt-4" v-if="categories.links">
           <div class="text-sm text-gray-600 font-medium">
-            Showing {{ categories.from }} to {{ categories.to }} of {{ categories.total }} results
+            {{ $t('common.showing') }} {{ categories.from }} {{ $t('common.of') }} {{ categories.total }} {{ $t('common.results') }}
           </div>
           <div class="flex space-x-2">
             <button
@@ -179,9 +179,12 @@
 
 import { onUnmounted, ref, watch } from "vue";
 import { router } from "@inertiajs/vue3";
+import { useI18n } from "vue-i18n";
 
 import CategoryCreateModal from "./Components/CategoryCreateModal.vue";
 import CategoryEditModal from "./Components/CategoryEditModal.vue";
+
+useI18n();
 
 /**
  * Component Props

@@ -12,9 +12,9 @@
             @click="goToReportsTab"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-4xl font-bold text-gray-800">Stock Report</h1>
+          <h1 class="text-4xl font-bold text-gray-800">{{ $t('reports.stock_report') }}</h1>
         </div>
       </div>
 
@@ -103,7 +103,7 @@
             <!-- Empty State Message -->
             <tr v-if="!productsStock.data || productsStock.data.length === 0">
               <td colspan="3" class="px-6 py-8 text-center text-gray-500 font-medium">
-                No products found
+                {{ $t('reports.no_data') }}
               </td>
             </tr>
           </tbody>
@@ -115,8 +115,7 @@
           class="flex items-center justify-between px-6 py-4 mt-4"
         >
           <div class="text-sm text-gray-600 font-medium">
-            Showing {{ productsStock.from }} to {{ productsStock.to }} of
-            {{ productsStock.total }} results
+            {{ $t('common.showing') }} {{ productsStock.from }} {{ $t('common.of') }} {{ productsStock.total }} {{ $t('common.results') }}
           </div>
           <div class="flex gap-2">
             <template v-for="(link, index) in productsStock.links" :key="index">
@@ -156,6 +155,8 @@ import { Head, usePage, router } from "@inertiajs/vue3";
 import { computed } from "vue";
 import { logActivity } from "@/composables/useActivityLog";
 import { useDashboardNavigation } from "@/composables/useDashboardNavigation";
+import { useI18n } from "vue-i18n";
+useI18n();
 
 const { goToReportsTab } = useDashboardNavigation();
 

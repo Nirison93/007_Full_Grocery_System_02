@@ -7,15 +7,15 @@
             @click="goToStoresTab"
             class="px-6 py-2.5 rounded-[5px]  font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-4xl font-bold text-gray-800">Supplier Payment</h1>
+          <h1 class="text-4xl font-bold text-gray-800">{{ $t('expenses.title') }}</h1>
         </div>
         <button
           @click="openCreateModal"
           class="px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-[5px] hover:bg-blue-700 transition-all duration-200"
         >
-          + Add Supplier Payment
+          + {{ $t('expenses.add') }}
         </button>
       </div>
 
@@ -24,18 +24,18 @@
           <table class="w-full text-left border-collapse">
             <thead>
               <tr class="border-b-2 border-blue-600">
-                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">#</th>
-                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">Date</th>
-                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">Supplier</th>
+                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">{{ $t('fields.number') }}</th>
+                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">{{ $t('fields.date') }}</th>
+                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">{{ $t('fields.supplier') }}</th>
                 <th class="px-6 py-4 text-blue-600 font-semibold text-sm">
-                  Amount ({{ page.props.currency }})
+                  {{ $t('fields.amount') }} ({{ page.props.currency }})
                 </th>
                 <th class="px-6 py-4 text-blue-600 font-semibold text-sm">
-                  Payment Type
+                  {{ $t('fields.payment_type') }}
                 </th>
-                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">Reference</th>
-                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">Added By</th>
-                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">Actions</th>
+                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">{{ $t('fields.reference') }}</th>
+                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">{{ $t('fields.added_by') }}</th>
+                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">{{ $t('common.actions') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -87,13 +87,13 @@
                     @click="openViewModal(expense)"
                     class="px-4 py-2 text-xs font-medium text-white bg-green-600 rounded-[5px] hover:bg-green-700 transition-all duration-200"
                   >
-                    View
+                    {{ $t('common.view') }}
                   </button>
                 </td>
               </tr>
               <tr v-if="!expenses.data || expenses.data.length === 0">
                 <td colspan="8" class="px-6 py-8 text-center text-gray-500 font-medium">
-                  No expenses found
+                  {{ $t('expenses.no_expenses') }}
                 </td>
               </tr>
             </tbody>
@@ -106,8 +106,8 @@
           v-if="expenses.links"
         >
           <div class="text-sm text-gray-600">
-            Showing {{ expenses.from }} to {{ expenses.to }} of
-            {{ expenses.total }} results
+            {{ $t('common.showing') }} {{ expenses.from }} {{ $t('common.to') }} {{ expenses.to }} {{ $t('common.of') }}
+            {{ expenses.total }} {{ $t('common.results') }}
           </div>
           <div class="flex gap-2">
             <button
@@ -158,10 +158,13 @@
 
 import { ref } from "vue";
 import { usePage } from "@inertiajs/vue3";
+import { useI18n } from "vue-i18n";
 import axios from "axios";
 import PurchaseExpenseCreateModal from "./Components/PurchaseExpenseCreateModal.vue";
 import PurchaseExpenseViewModal from "./Components/PurchaseExpenseViewModal.vue";
 import { useDashboardNavigation } from "@/composables/useDashboardNavigation";
+
+useI18n();
 
 /**
  * Component Props
