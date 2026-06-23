@@ -10,16 +10,16 @@
             @click="goToShopsTab"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-4xl font-bold text-gray-800">Customers</h1>
+          <h1 class="text-4xl font-bold text-gray-800">{{ $t('customers.title') }}</h1>
         </div>
         <!-- Add Customer Button -->
         <button
           @click="openCreateModal"
           class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200"
         >
-          + Add Customer
+          + {{ $t('customers.add') }}
         </button>
       </div>
 
@@ -34,7 +34,7 @@
           <input
             v-model="search"
             type="text"
-            placeholder="Search customers by name, email, or phone..."
+            :placeholder="$t('common.search')"
             class="w-full rounded-[8px] border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -46,18 +46,18 @@
           <!-- Table Header -->
           <thead>
             <tr class="border-b-2 border-blue-600">
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">#</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Customer Name</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Email</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Phone Number</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.number') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.name') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.email') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.phone') }}</th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-right">
                 Credit Limit
               </th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Status
+                {{ $t('fields.status') }}
               </th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Actions
+                {{ $t('common.actions') }}
               </th>
             </tr>
           </thead>
@@ -110,9 +110,9 @@
                 >
                   {{
                     customer.status == 1
-                      ? "Active"
+                      ? $t('fields.active')
                       : customer.status == 0
-                      ? "Inactive"
+                      ? $t('fields.inactive')
                       : "Default"
                   }}
                 </span>
@@ -130,7 +130,7 @@
                         : 'text-white bg-blue-600 hover:bg-blue-700',
                     ]"
                   >
-                    Edit
+                    {{ $t('common.edit') }}
                   </button>
                 </div>
               </td>
@@ -138,7 +138,7 @@
             <!-- Empty State Message -->
             <tr v-if="!customers.data || customers.data.length === 0">
               <td colspan="7" class="px-6 py-8 text-center text-gray-500 font-medium">
-                No customers found
+                {{ $t('customers.no_customers') }}
               </td>
             </tr>
           </tbody>
@@ -150,8 +150,8 @@
           v-if="customers.links"
         >
           <div class="text-sm text-gray-600">
-            Showing {{ customers.from }} to {{ customers.to }} of
-            {{ customers.total }} results
+            {{ $t('common.showing') }} {{ customers.from }} {{ $t('common.of') }}
+            {{ customers.total }} {{ $t('common.results') }}
           </div>
           <div class="flex space-x-2">
             <button
@@ -189,9 +189,12 @@
 <script setup>
 import { onUnmounted, ref, watch } from "vue";
 import { router } from "@inertiajs/vue3";
+import { useI18n } from "vue-i18n";
 import CustomerCreateModal from "./Components/CustomerCreateModal.vue";
 import CustomerEditModal from "./Components/CustomerEditModal.vue";
 import { useDashboardNavigation } from "@/composables/useDashboardNavigation";
+
+useI18n();
 
 const props = defineProps({
   customers: {

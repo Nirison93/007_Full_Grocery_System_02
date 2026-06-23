@@ -5,7 +5,7 @@
         <h2
           class="text-2xl font-bold text-blue-600"
         >
-          ✨ Add New Product
+          ✨ {{ $t('products.add_new_product') }}
         </h2>
         <button
           type="button"
@@ -35,19 +35,19 @@
           class="mb-4 bg-white rounded-xl p-4 shadow-sm border border-gray-200"
         >
           <h3 class="mb-3 text-lg font-semibold text-blue-600 flex items-center gap-2">
-            📋 Basic Information
+            📋 {{ $t('products.basic_information') }}
           </h3>
           <div class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
             <!-- Product Name -->
             <div>
               <label class="block mb-2 text-sm font-medium text-gray-700">
-                Product Name <span class="text-red-500">*</span>
+                {{ $t('products.product_name') }} <span class="text-red-500">*</span>
               </label>
               <input
                 v-model="form.name"
                 type="text"
                 class="w-full px-3 py-2 text-sm text-gray-800 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter product name"
+                :placeholder="$t('products.enter_name')"
                 required
               />
               <span v-if="form.errors.name" class="text-sm text-red-500">{{
@@ -57,12 +57,12 @@
 
             <!-- Barcode -->
             <div>
-              <label class="block mb-2 text-sm font-medium text-gray-700">Barcode</label>
+              <label class="block mb-2 text-sm font-medium text-gray-700">{{ $t('fields.barcode') }}</label>
               <input
                 v-model="form.barcode"
                 type="text"
                 class="w-full px-3 py-2 text-sm text-gray-800 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                placeholder="Enter or scan barcode"
+                :placeholder="$t('products.enter_barcode')"
               />
               <span v-if="form.errors.barcode" class="text-sm text-red-500">{{
                 form.errors.barcode
@@ -71,36 +71,36 @@
 
             <!-- Brand with Searchable Dropdown -->
             <div class="min-w-0">
-              <label class="block mb-2 text-sm font-medium text-gray-700">Brand</label>
+              <label class="block mb-2 text-sm font-medium text-gray-700">{{ $t('fields.brand') }}</label>
               <SearchableSelect
                 v-model="form.brand_id"
                 :options="brandOptions"
-                placeholder="Search brands..."
+                :placeholder="$t('products.search_brands')"
                 :add-button-action="openBrandModal"
               />
             </div>
 
             <!-- Category with Searchable Dropdown -->
             <div class="min-w-0">
-              <label class="block mb-2 text-sm font-medium text-gray-700">Category</label>
+              <label class="block mb-2 text-sm font-medium text-gray-700">{{ $t('fields.category') }}</label>
               <SearchableSelect
                 v-model="form.category_id"
                 :options="categoryOptions"
-                placeholder="Search categories..."
+                :placeholder="$t('products.search_categories')"
                 :add-button-action="openCategoryModal"
               />
             </div>
 
             <!-- Type -->
             <div class="min-w-0">
-              <label class="block mb-2 text-sm font-medium text-gray-700">Type</label>
+              <label class="block mb-2 text-sm font-medium text-gray-700">{{ $t('fields.type') }}</label>
               <div class="flex gap-2">
                 <select
                   v-model="form.type_id"
                   class="flex-1 min-w-0 px-3 py-2 text-sm text-gray-800 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                   title="Select Type"
                 >
-                  <option value="">Select Type</option>
+                  <option value="">{{ $t('products.select_type') }}</option>
                   <option v-for="type in types" :key="type.id" :value="type.id">
                     {{ type.name }}
                   </option>
@@ -131,13 +131,13 @@
 
             <!-- Status -->
             <div>
-              <label class="block mb-2 text-sm font-medium text-gray-700">Status</label>
+              <label class="block mb-2 text-sm font-medium text-gray-700">{{ $t('fields.status') }}</label>
               <select
                 v-model="form.status"
                 class="w-full px-3 py-2 text-sm text-gray-800 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
               >
-                <option value="1">Active</option>
-                <option value="0">Inactive</option>
+                <option value="1">{{ $t('fields.active') }}</option>
+                <option value="0">{{ $t('fields.inactive') }}</option>
               </select>
             </div>
           </div>
@@ -148,13 +148,13 @@
           class="mb-4 bg-white rounded-xl p-4 shadow-sm border border-gray-200"
         >
           <h3 class="mb-3 text-lg font-semibold text-green-600 flex items-center gap-2">
-            💰 Pricing Information ({{ page.props.currency || "" }})
+            💰 {{ $t('products.pricing_information') }} ({{ page.props.currency || "" }})
           </h3>
           <div class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3">
             <!-- Purchase Price -->
             <div>
               <label class="block mb-2 text-sm font-medium text-gray-700"
-                >Purchase Price</label
+                >{{ $t('products.purchase_price_label') }}</label
               >
               <input
                 v-model="form.purchase_price"
@@ -171,7 +171,7 @@
             <!-- Wholesale Price -->
             <div>
               <label class="block mb-2 text-sm font-medium text-gray-700"
-                >Wholesale Price(Wholesale Price per one sales unit)</label
+                >{{ $t('products.wholesale_price_label') }}</label
               >
               <input
                 v-model="form.wholesale_price"
@@ -185,7 +185,7 @@
             <!-- Retail Price -->
             <div>
               <label class="block mb-2 text-sm font-medium text-gray-700">
-                Retail Price(Retail Price per one sales unit)
+                {{ $t('products.retail_price_label') }}
               </label>
               <input
                 v-model="form.retail_price"
@@ -199,13 +199,13 @@
 
              <!-- Tax -->
             <div>
-              <label class="block mb-2 text-sm font-medium text-gray-700">Tax</label>
+              <label class="block mb-2 text-sm font-medium text-gray-700">{{ $t('fields.tax') }}</label>
               <div class="flex gap-2">
                 <select
                   v-model="form.tax_id"
                   class="flex-1 px-3 py-2 text-sm text-gray-800 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="">Select Tax</option>
+                  <option value="">{{ $t('products.select_tax') }}</option>
                   <option v-for="tax in taxes" :key="tax.id" :value="tax.id">
                     {{ tax.name }} - {{ tax.percentage }}%
                   </option>
@@ -236,14 +236,14 @@
             <!-- Discount -->
             <div>
               <label class="block mb-2 text-sm font-medium text-gray-700"
-                >Discount Type</label
+                >{{ $t('discounts.discount_type') }}</label
               >
               <div class="flex gap-2">
                 <select
                   v-model="form.discount_id"
                   class="flex-1 px-3 py-2 text-sm text-gray-800 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 >
-                  <option value="">Select Discount</option>
+                  <option value="">{{ $t('products.select_discount') }}</option>
                   <option
                     v-for="discount in discounts"
                     :key="discount.id"
@@ -286,7 +286,7 @@
           class="mb-4 bg-white rounded-xl p-4 shadow-sm border border-gray-200"
         >
           <h3 class="mb-3 text-lg font-semibold text-orange-600 flex items-center gap-2">
-            📦 Inventory & Units
+            📦 {{ $t('products.inventory_units') }}
           </h3>
 
           <!-- Units Row -->
@@ -360,7 +360,7 @@
             <!-- Shop Low Stock Margin -->
             <div>
               <label class="block mb-2 text-sm font-medium text-gray-700"
-                >Shop Low Stock Alert
+                >{{ $t('products.shop_low_stock_alert') }}
 
                 <span v-if="form.sales_unit_id" class="green-600">
                   ({{ getSalesUnitName(form.sales_unit_id) }})
@@ -372,9 +372,9 @@
                 class="w-full px-3 py-2 text-sm text-gray-800 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                 placeholder="10"
               />
-              <span class="text-xs text-gray-500">Optional - Leave blank if not needed</span>
+              <span class="text-xs text-gray-500">{{ $t('common.optional_blank') }}</span>
               <span class="text-xs text-gray-600"
-                >Alert when shop stock falls below this level</span
+                >{{ $t('products.shop_stock_alert_hint') }}</span
               >
             </div>
           </div>
@@ -387,7 +387,7 @@
           class="mb-4 bg-white rounded-xl p-4 shadow-sm border border-gray-200"
         >
           <h3 class="mb-3 text-lg font-semibold text-indigo-600 flex items-center gap-2">
-            ⚙️ Additional Options
+            ⚙️ {{ $t('products.additional_options') }}
           </h3>
           <div class="space-y-3">
             <!-- Return Product Checkbox -->
@@ -401,14 +401,14 @@
                 class="w-5 h-5 text-blue-600 bg-white border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
               />
               <label for="return-product" class="ml-3 text-sm font-medium text-gray-800">
-                Allow Product Returns
+                {{ $t('products.allow_returns') }}
               </label>
             </div>
 
             <!-- Image Upload -->
             <div>
               <label class="block mb-2 text-sm font-medium text-gray-700"
-                >Product Image</label
+                >{{ $t('products.product_image_label') }}</label
               >
               <input
                 @input="form.image = $event.target.files[0]"
@@ -430,14 +430,14 @@
             @click="closeModal"
             class="px-8 py-2.5 rounded-[5px] font-semibold text-sm bg-gray-500 text-white hover:bg-gray-600 transition-all duration-200"
           >
-            Cancel
+            {{ $t('common.cancel') }}
           </button>
           <button
             type="submit"
             :disabled="form.processing"
             class="px-8 py-2.5 rounded-[5px] font-semibold text-sm bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            {{ form.processing ? "✨ Creating..." : "✨ Create Product" }}
+            {{ form.processing ? "✨ " + $t('products.creating') : "✨ " + $t('products.create_title') }}
           </button>
         </div>
       </form>
@@ -497,7 +497,10 @@
 import { ref, computed, watch } from "vue";
 import { usePage } from "@inertiajs/vue3";
 import { useForm } from "@inertiajs/vue3";
+import { useI18n } from "vue-i18n";
 import { logActivity } from "@/composables/useActivityLog";
+
+useI18n();
 import Modal from "@/Components/Modal.vue";
 import QuickAddModal from "@/Pages/Products/Components/QuickAddModal.vue";
 import SearchableSelect from "@/Pages/Products/Components/SearchableSelect.vue";

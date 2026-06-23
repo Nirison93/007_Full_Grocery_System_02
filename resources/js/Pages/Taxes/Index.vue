@@ -10,16 +10,16 @@
             @click="goToShopsTab"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-4xl font-bold text-gray-800">Taxes</h1>
+          <h1 class="text-4xl font-bold text-gray-800">{{ $t('taxes.title') }}</h1>
         </div>
         <!-- Add Tax Button -->
         <button
           @click="openCreateModal"
           class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200"
         >
-          + Add Tax
+          + {{ $t('taxes.add') }}
         </button>
       </div>
 
@@ -29,19 +29,19 @@
           <!-- Table Header -->
           <thead>
             <tr class="border-b-2 border-blue-600">
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">#</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Tax Name</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.number') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.name') }}</th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-right">
-                Percentage
+                {{ $t('taxes.tax_percentage') }}
               </th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Type
+                {{ $t('discounts.discount_type') }}
               </th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Status
+                {{ $t('fields.status') }}
               </th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Actions
+                {{ $t('common.actions') }}
               </th>
             </tr>
           </thead>
@@ -96,7 +96,7 @@
                   }"
                 >
                   {{
-                    tax.status == 1 ? "Active" : tax.status == 0 ? "Inactive" : "Default"
+                    tax.status == 1 ? $t('fields.active') : tax.status == 0 ? $t('fields.inactive') : "Default"
                   }}
                 </span>
               </td>
@@ -113,7 +113,7 @@
                         : 'text-white bg-blue-600 hover:bg-blue-700',
                     ]"
                   >
-                    Edit
+                    {{ $t('common.edit') }}
                   </button>
                 </div>
               </td>
@@ -121,7 +121,7 @@
             <!-- Empty State Message -->
             <tr v-if="!taxes.data || taxes.data.length === 0">
               <td colspan="6" class="px-6 py-8 text-center text-gray-500 font-medium">
-                No taxes found
+                {{ $t('taxes.no_taxes') }}
               </td>
             </tr>
           </tbody>
@@ -133,7 +133,7 @@
           v-if="taxes.links"
         >
           <div class="text-sm text-gray-600">
-            Showing {{ taxes.from }} to {{ taxes.to }} of {{ taxes.total }} results
+            {{ $t('common.showing') }} {{ taxes.from }} {{ $t('common.of') }} {{ taxes.total }} {{ $t('common.results') }}
           </div>
           <div class="flex space-x-2">
             <button
@@ -166,10 +166,13 @@
 
 <script setup>
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { router } from "@inertiajs/vue3";
 import TaxCreateModal from "./Components/TaxCreateModal.vue";
 import TaxEditModal from "./Components/TaxEditModal.vue";
 import { useDashboardNavigation } from "@/composables/useDashboardNavigation";
+
+useI18n();
 
 defineProps({
   taxes: {

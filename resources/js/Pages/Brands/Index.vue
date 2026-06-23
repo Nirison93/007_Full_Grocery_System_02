@@ -11,16 +11,16 @@
             @click="$inertia.visit(route('dashboard'))"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-4xl font-bold text-gray-800">Brands</h1>
+          <h1 class="text-4xl font-bold text-gray-800">{{ $t('brands.title') }}</h1>
         </div>
         <!-- Add New Brand Button -->
         <button
           @click="openCreateModal"
           class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-blue-600 text-white shadow-lg hover:bg-blue-700 hover:shadow-xl hover:scale-105 transition-all duration-300"
         >
-          + Add Brand
+          + {{ $t('brands.add') }}
         </button>
       </div>
 
@@ -35,7 +35,7 @@
           <input
             v-model="search"
             type="text"
-            placeholder="Search brands by name..."
+            :placeholder="$t('common.search') + ' ' + $t('brands.title').toLowerCase() + '...'"
             class="w-full rounded-[8px] border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -49,14 +49,10 @@
           <!-- Table Header -->
           <thead>
             <tr class="border-b-2 border-blue-600">
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">#</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Brand Name</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Status
-              </th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Actions
-              </th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.number') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('brands.title') }} {{ $t('fields.name') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">{{ $t('fields.status') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">{{ $t('common.actions') }}</th>
             </tr>
           </thead>
           <!-- Table Body - Brand Rows -->
@@ -92,10 +88,10 @@
                 >
                   {{
                     brand.status == 1
-                      ? "Active"
+                      ? $t('fields.active')
                       : brand.status == 0
-                      ? "Inactive"
-                      : "Default"
+                      ? $t('fields.inactive')
+                      : $t('fields.status')
                   }}
                 </span>
               </td>
@@ -112,7 +108,7 @@
                         : 'text-white bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:scale-105',
                     ]"
                   >
-                    Edit
+                    {{ $t('common.edit') }}
                   </button>
                 </div>
               </td>
@@ -120,7 +116,7 @@
             <!-- Empty State Message -->
             <tr v-if="!brands.data || brands.data.length === 0">
               <td colspan="4" class="px-6 py-8 text-center text-gray-500 font-medium">
-                No brands found
+                {{ $t('brands.no_brands') }}
               </td>
             </tr>
           </tbody>
@@ -129,7 +125,7 @@
         <!-- Pagination -->
         <div class="flex items-center justify-between px-6 py-4 mt-4" v-if="brands.links">
           <div class="text-sm text-gray-600 font-medium">
-            Showing {{ brands.from }} to {{ brands.to }} of {{ brands.total }} results
+            {{ $t('common.showing') }} {{ brands.from }} {{ $t('common.of') }} {{ brands.total }} {{ $t('common.results') }}
           </div>
           <div class="flex space-x-2">
             <button
@@ -176,6 +172,9 @@
 
 import { onUnmounted, ref, watch } from "vue";
 import { router } from "@inertiajs/vue3";
+import { useI18n } from "vue-i18n";
+
+useI18n();
 
 import BrandCreateModel from "./Components/BrandCreateModel.vue";
 import BrandEditModel from "./Components/BrandUpdateModel.vue";

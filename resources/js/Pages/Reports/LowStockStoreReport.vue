@@ -12,9 +12,9 @@
             @click="goToReportsTab"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-4xl font-bold text-gray-800">Store Low Stock Report</h1>
+          <h1 class="text-4xl font-bold text-gray-800">{{ $t('reports.store_low_stock') }}</h1>
         </div>
         <!-- Filter Controls -->
         <!-- <div
@@ -69,7 +69,7 @@
           <!-- Table Header -->
           <thead>
             <tr class="border-b-2 border-blue-600">
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">#</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.number') }}</th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Item Name</th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-right">
                 Store Qty
@@ -124,7 +124,7 @@
             <!-- Empty State Message -->
             <tr v-if="!products || products.length === 0">
               <td colspan="6" class="px-6 py-8 text-center text-gray-500 font-medium">
-                No low stock products found
+                {{ $t('reports.no_data') }}
               </td>
             </tr>
           </tbody>
@@ -140,6 +140,8 @@ import { Head, router } from "@inertiajs/vue3";
 import { computed, ref } from "vue";
 import { logActivity } from "@/composables/useActivityLog";
 import { useDashboardNavigation } from "@/composables/useDashboardNavigation";
+import { useI18n } from "vue-i18n";
+useI18n();
 
 const { goToReportsTab } = useDashboardNavigation();
 

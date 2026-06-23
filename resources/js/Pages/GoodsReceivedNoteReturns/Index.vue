@@ -7,15 +7,15 @@
             @click="goToStoresTab"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-4xl font-bold text-gray-800">Goods Return Notes</h1>
+          <h1 class="text-4xl font-bold text-gray-800">{{ $t('grn.goods_returns') }}</h1>
         </div>
         <button
           @click="openCreateModal"
           class="px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-[5px] hover:bg-blue-700 transition-all duration-200"
         >
-          + Add New GRN Return
+          + {{ $t('grn.add_return') }}
         </button>
       </div>
 
@@ -24,13 +24,13 @@
           <table class="w-full text-left border-collapse">
             <thead>
               <tr class="border-b-2 border-blue-600">
-                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">Return #</th>
-                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">GRN</th>
-                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">Date</th>
-                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">User</th>
-                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">Products</th>
-                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">Return Qty</th>
-                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">Actions</th>
+                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">{{ $t('fields.return_number') }}</th>
+                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">{{ $t('grn.title') }}</th>
+                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">{{ $t('fields.date') }}</th>
+                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">{{ $t('fields.user') }}</th>
+                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">{{ $t('products.title') }}</th>
+                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">{{ $t('fields.return_qty') }}</th>
+                <th class="px-6 py-4 text-blue-600 font-semibold text-sm">{{ $t('common.actions') }}</th>
               </tr>
             </thead>
             <tbody>
@@ -66,7 +66,7 @@
                       @click="openViewModal(r)"
                       class="px-4 py-2 text-xs font-medium text-white bg-green-600 rounded-[5px] hover:bg-green-700 transition-all duration-200"
                     >
-                      View
+                      {{ $t('common.view') }}
                     </button>
                     <!-- <button
                       @click="openDeleteModal(r)"
@@ -79,7 +79,7 @@
               </tr>
               <tr v-if="!returns.data || returns.data.length === 0">
                 <td colspan="7" class="px-6 py-8 text-center text-gray-500 font-medium">
-                  No returns found
+                  {{ $t('grn.no_grn_returns') }}
                 </td>
               </tr>
             </tbody>
@@ -91,7 +91,7 @@
           v-if="returns.links && returns.links.length > 3"
         >
           <div class="text-sm text-gray-600">
-            Showing {{ returns.from }} to {{ returns.to }} of {{ returns.total }} results
+            {{ $t('common.showing') }} {{ returns.from }} {{ $t('common.to') }} {{ returns.to }} {{ $t('common.of') }} {{ returns.total }} {{ $t('common.results') }}
           </div>
           <div class="flex gap-2">
             <button
@@ -146,11 +146,14 @@
 <script setup>
 import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
+import { useI18n } from "vue-i18n";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import GoodsReceivedNoteReturnCreateModal from "./components/GoodsReceivedNoteReturnCreateModal.vue";
 import GoodsReceivedNoteReturnViewModal from "./components/GoodsReceivedNoteReturnViewModal.vue";
 import GoodsReceivedNoteReturnDeleteModal from "./components/GoodsReceivedNoteReturnDeleteModal.vue";
 import { useDashboardNavigation } from "@/composables/useDashboardNavigation";
+
+useI18n();
 
 const props = defineProps({
   returns: Object,

@@ -12,16 +12,16 @@
                 @click="goToShopsTab"
                 class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
               >
-                ← Back
+                ← {{ $t('common.back') }}
               </button>
-              <h1 class="text-3xl font-bold text-black">Quotations</h1>
+              <h1 class="text-3xl font-bold text-black">{{ $t('quotations.title') }}</h1>
             </div>
             <p class="text-gray-400">
-              Create new quotation (F9: Complete | F8: Clear | ESC: Focus Barcode)
+              {{ $t('quotations.create_hint') }} (F9: Complete | F8: Clear | ESC: Focus Barcode)
             </p>
           </div>
           <div class="text-right">
-            <div class="text-sm text-gray-400">Quotation No.</div>
+            <div class="text-sm text-gray-400">{{ $t('quotations.quotation_no') }}</div>
             <div class="text-2xl font-bold text-blue-400">{{ quotation_no }}</div>
           </div>
         </div>
@@ -459,7 +459,7 @@
             @click="showPaymentModal = false"
             class="flex-1 px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-[5px] transition"
           >
-            Close
+            {{ $t('common.close') }}
           </button>
         </div>
       </div>
@@ -474,7 +474,7 @@
             <div>
               <h2 class="text-2xl font-bold text-gray-800">🔍 Browse Products</h2>
               <p class="text-gray-600 text-sm mt-1">
-                Click products to add to cart • {{ form.items.length }} items in cart
+                {{ $t('sales.click_to_add') }} • {{ form.items.length }} {{ $t('sales.items_in_cart') }}
               </p>
             </div>
             <button
@@ -672,7 +672,7 @@
           <!-- No products message -->
           <div v-if="filteredProducts.length === 0" class="text-center py-12">
             <div class="text-6xl mb-4">📭</div>
-            <p class="text-gray-600 text-lg">No products found</p>
+            <p class="text-gray-600 text-lg">{{ $t('products.no_products') }}</p>
           </div>
         </div>
 
@@ -683,9 +683,9 @@
         >
           <div class="flex justify-between items-center">
             <div class="text-gray-700 text-sm">
-              Showing {{ startIndex + 1 }} to
-              {{ Math.min(endIndex, filteredProducts.length) }} of
-              {{ filteredProducts.length }} products
+              {{ $t('common.showing') }} {{ startIndex + 1 }} {{ $t('common.to') }}
+              {{ Math.min(endIndex, filteredProducts.length) }} {{ $t('common.of') }}
+              {{ filteredProducts.length }} {{ $t('products.title') }}
             </div>
             <div class="flex gap-2">
               <button
@@ -751,7 +751,7 @@
               @click="closeModal"
               class="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition shadow-lg"
             >
-              CLOSE
+              {{ $t('common.close') }}
             </button>
           </div>
         </div>
@@ -829,12 +829,15 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, useForm, router, usePage } from "@inertiajs/vue3";
+import { useI18n } from "vue-i18n";
 const page = usePage();
 import { ref, computed, onMounted, watch } from "vue";
 import { logActivity } from "@/composables/useActivityLog";
 import Modal from "@/Components/Modal.vue";
 import CustomerCreateModal from "@/Pages/Customers/Components/CustomerCreateModal.vue";
 import { useDashboardNavigation } from "@/composables/useDashboardNavigation";
+
+useI18n();
 
 const { goToShopsTab } = useDashboardNavigation();
 

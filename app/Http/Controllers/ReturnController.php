@@ -467,8 +467,6 @@ class ReturnController extends Controller
                             $returnProduct->quantity,
                             'RETURN-' . $return->id
                         );
-                        // Log to Shop Inventory
-                        StoreInventoryController::logSalesReturn($returnProduct->product_id, $returnProduct->quantity, $return->id);
                     }
                 }
 

@@ -9,9 +9,9 @@
             @click="goToReportsTab"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-4xl font-bold text-gray-800">Cash Drawer Report</h1>
+          <h1 class="text-4xl font-bold text-gray-800">{{ $t('reports.cash_drawer') }}</h1>
         </div>
 
         <div class="flex items-center gap-2 bg-white rounded-lg p-3 shadow-sm border border-gray-200">
@@ -79,7 +79,7 @@
               <td class="px-4 py-4 text-gray-700">{{ summary.last_opened_at || 'N/A' }}</td>
             </tr>
             <tr v-if="!userSummary || userSummary.length === 0">
-              <td colspan="7" class="px-6 py-8 text-center text-gray-500 font-medium">No summary data for selected filters</td>
+              <td colspan="7" class="px-6 py-8 text-center text-gray-500 font-medium">{{ $t('reports.no_data') }}</td>
             </tr>
           </tbody>
         </table>
@@ -125,7 +125,7 @@
               </td>
             </tr>
             <tr v-if="!sessions.data || sessions.data.length === 0">
-              <td colspan="8" class="px-6 py-8 text-center text-gray-500 font-medium">No cash drawer sessions found</td>
+              <td colspan="8" class="px-6 py-8 text-center text-gray-500 font-medium">{{ $t('reports.no_data') }}</td>
             </tr>
           </tbody>
         </table>
@@ -135,7 +135,7 @@
           v-if="sessions.links && sessions.links.length > 3"
         >
           <div class="text-sm text-gray-600">
-            Showing {{ sessions.from }} to {{ sessions.to }} of {{ sessions.total }} results
+            {{ $t('common.showing') }} {{ sessions.from }} {{ $t('common.of') }} {{ sessions.total }} {{ $t('common.results') }}
           </div>
           <div class="flex space-x-2">
             <button
@@ -165,6 +165,8 @@ import { computed, ref } from "vue";
 import { Head, router } from "@inertiajs/vue3";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import { useDashboardNavigation } from "@/composables/useDashboardNavigation";
+import { useI18n } from "vue-i18n";
+useI18n();
 
 const props = defineProps({
   sessions: {

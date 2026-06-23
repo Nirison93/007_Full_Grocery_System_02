@@ -601,13 +601,6 @@ class GoodReceiveNoteReturnController extends Controller
                     ->decrement('subtotal', $totalReturnAmount);
             }
 
-            // Log to Store Inventory for each product returned
-            foreach ($validated['products'] as $p) {
-                if (!empty($p['product_id']) && !empty($p['qty'])) {
-                    StoreInventoryController::logGrnReturn($p['product_id'], (float)$p['qty'], $grnReturn->id);
-                }
-            }
-
             DB::commit();
             return redirect()->route('good-receive-note-returns.index')->with('success', 'GRN return recorded.');
         } catch (\Exception $e) {

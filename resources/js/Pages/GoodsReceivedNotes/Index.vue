@@ -10,16 +10,16 @@
             @click="goToStoresTab"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-4xl font-bold text-gray-800">Goods Received Notes</h1>
+          <h1 class="text-4xl font-bold text-gray-800">{{ $t('grn.full_title') }}</h1>
         </div>
         <!-- Add New Button -->
         <a
           :href="route('good-receive-notes.create')"
           class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-blue-600 text-white hover:bg-blue-700 hover:scale-105 transition-all duration-300 inline-block"
         >
-          + Create Goods Received Note
+          + {{ $t('grn.add') }}
         </a>
       </div>
 
@@ -98,15 +98,15 @@
           <!-- Table Header -->
           <thead>
             <tr class="border-b-2 border-blue-600">
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Note Number</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Supplier</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Date</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Products</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Discount</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Tax</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('grn.grn_number') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.supplier') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.date') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('products.title') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.discount') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.tax') }}</th>
 
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Actions
+                {{ $t('common.actions') }}
               </th>
             </tr>
           </thead>
@@ -159,7 +159,7 @@
                     @click="openViewModal(goodsReceivedNote)"
                     class="px-4 py-2 text-xs font-medium text-white bg-green-600 rounded-[5px] hover:bg-green-700 transition-all duration-200"
                   >
-                    View
+                    {{ $t('common.view') }}
                   </button>
                 </div>
               </td>
@@ -167,7 +167,7 @@
             <!-- Empty State Message -->
             <tr v-if="!goodsReceivedNotes.data || goodsReceivedNotes.data.length === 0">
               <td colspan="8" class="px-6 py-8 text-center text-gray-500 font-medium">
-                No Goods Received Notes found
+                {{ $t('grn.no_grn') }}
               </td>
             </tr>
           </tbody>
@@ -179,8 +179,8 @@
           v-if="goodsReceivedNotes.links && goodsReceivedNotes.links.length > 3"
         >
           <div class="text-sm text-gray-600">
-            Showing {{ goodsReceivedNotes.from }} to {{ goodsReceivedNotes.to }} of
-            {{ goodsReceivedNotes.total }} results
+            {{ $t('common.showing') }} {{ goodsReceivedNotes.from }} {{ $t('common.to') }} {{ goodsReceivedNotes.to }} {{ $t('common.of') }}
+            {{ goodsReceivedNotes.total }} {{ $t('common.results') }}
           </div>
           <div class="flex space-x-2">
             <button
@@ -233,11 +233,14 @@
 <script setup>
 import { ref } from "vue";
 import { router } from "@inertiajs/vue3";
+import { useI18n } from "vue-i18n";
 import { logActivity } from "@/composables/useActivityLog";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import GoodsReceivedNoteCreateModal from "./Components/GoodsReceivedNoteCreateModal.vue";
 import GoodsReceivedNoteViewModel from "./Components/GoodsReceivedNoteViewModel.vue";
 import { useDashboardNavigation } from "@/composables/useDashboardNavigation";
+
+useI18n();
 
 defineProps({
   products: Array,

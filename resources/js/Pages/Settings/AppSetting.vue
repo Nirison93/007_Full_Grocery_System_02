@@ -10,9 +10,9 @@
             @click=" goToSettingsTab"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-3xl font-bold text-black">App Settings</h1>
+          <h1 class="text-3xl font-bold text-black">{{ $t('settings.app_settings') }}</h1>
         </div>
       </div>
 
@@ -32,7 +32,7 @@
             <!-- App Name Field (Required) -->
             <div class="md:col-span-2">
               <label class="block mb-2 text-sm font-semibold text-gray-700">
-                App Name <span class="text-red-500">*</span>
+                {{ $t('settings.app_name') }} <span class="text-red-500">*</span>
               </label>
               <input
                 v-model="form.app_name"
@@ -167,7 +167,7 @@
             <!-- App Logo Upload Field with Preview -->
             <div class="md:col-span-2">
               <label class="block mb-2 text-sm font-semibold text-gray-700">
-                App Logo
+                {{ $t('settings.app_logo') }}
               </label>
               <div class="flex items-center gap-4">
                 <!-- File Input for Logo Upload -->
@@ -202,7 +202,7 @@
             <!-- App Icon Upload Field with Preview -->
             <div class="md:col-span-2">
               <label class="block mb-2 text-sm font-semibold text-gray-700">
-                App Icon (Favicon)
+                {{ $t('settings.app_icon') }}
               </label>
               <div class="flex items-center gap-4">
                 <!-- File Input for Icon Upload -->

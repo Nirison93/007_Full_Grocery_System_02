@@ -10,16 +10,16 @@
             @click="$inertia.visit(route('dashboard'))"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-4xl font-bold text-gray-800">Suppliers</h1>
+          <h1 class="text-4xl font-bold text-gray-800">{{ $t('suppliers.title') }}</h1>
         </div>
         <!-- Add New Supplier Button -->
         <button
           @click="openCreateModal"
           class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200"
         >
-          + Add Supplier
+          + {{ $t('suppliers.add') }}
         </button>
       </div>
 
@@ -34,7 +34,7 @@
           <input
             v-model="search"
             type="text"
-            placeholder="Search suppliers by name, email, or phone..."
+            :placeholder="$t('common.search')"
             class="w-full rounded-[8px] border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -46,13 +46,13 @@
           <!-- Table Header -->
           <thead>
             <tr class="border-b-2 border-blue-600">
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">#</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Name</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Email</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Phone</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.number') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.name') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.email') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.phone') }}</th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-right">Due Payment</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">Status</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">Actions</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">{{ $t('fields.status') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">{{ $t('common.actions') }}</th>
             </tr>
           </thead>
           <!-- Table Body - Supplier Rows -->
@@ -100,7 +100,7 @@
                       'bg-blue-500 text-white px-4 py-1.5 rounded-[5px] font-medium text-xs': supplier.status == 2
                     }"
                   >
-                    {{ supplier.status == 1 ? 'Active' : supplier.status == 0 ? 'Inactive' : 'Default' }}
+                    {{ supplier.status == 1 ? $t('fields.active') : supplier.status == 0 ? $t('fields.inactive') : 'Default' }}
                   </span>
                 </td>
                 <!-- Action Buttons -->
@@ -116,7 +116,7 @@
                           : 'text-white bg-blue-600 hover:bg-blue-700'
                       ]"
                     >
-                      Edit
+                      {{ $t('common.edit') }}
                     </button>
                   </div>
                 </td>
@@ -124,7 +124,7 @@
             <!-- Empty State Message -->
             <tr v-if="!suppliers.data || suppliers.data.length === 0">
               <td colspan="6" class="px-6 py-8 text-center text-gray-500 font-medium">
-                No suppliers found
+                {{ $t('suppliers.no_suppliers') }}
               </td>
             </tr>
           </tbody>
@@ -133,7 +133,7 @@
         <!-- Pagination -->
         <div class="flex items-center justify-between mt-6 pt-4 border-t border-gray-200" v-if="suppliers.links">
           <div class="text-sm text-gray-600">
-            Showing {{ suppliers.from }} to {{ suppliers.to }} of {{ suppliers.total }} results
+            {{ $t('common.showing') }} {{ suppliers.from }} {{ $t('common.of') }} {{ suppliers.total }} {{ $t('common.results') }}
           </div>
           <div class="flex space-x-2">
             <button
@@ -171,9 +171,12 @@
 <script setup>
 import { onUnmounted, ref, watch } from "vue";
 import { router, usePage } from "@inertiajs/vue3";
+import { useI18n } from "vue-i18n";
 
 import SupplierCreateModal from "./Components/SupplierCreateModal.vue";
 import SupplierEditModal from "./Components/SupplierEditModal.vue";
+
+useI18n();
 
 const page = usePage();
 

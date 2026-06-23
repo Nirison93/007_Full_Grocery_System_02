@@ -49,16 +49,16 @@
                 @click="goToShopsTab"
                 class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
               >
-                ← Back
+                ← {{ $t('common.back') }}
               </button>
-              <h1 class="text-3xl font-bold text-black">Sales</h1>
+              <h1 class="text-3xl font-bold text-black">{{ $t('sales.title') }}</h1>
             </div>
             <p class="text-gray-400">
-              Create new invoice (F9: Complete | F8: Clear | ESC: Focus Barcode)
+              {{ $t('sales.invoice') }} (F9: Complete | F8: Clear | ESC: Focus Barcode)
             </p>
           </div>
           <div class="text-right">
-            <div class="text-sm text-gray-400">Invoice No.</div>
+            <div class="text-sm text-gray-400">{{ $t('sales.invoice_no') }}</div>
             <div class="text-2xl font-bold text-blue-400">{{ invoice_no }}</div>
             <button
               v-if="isCashDrawerOpen"
@@ -593,14 +593,14 @@
             <div>
               <h2 class="text-xl sm:text-2xl font-bold text-gray-900">Browse Products</h2>
               <p class="text-gray-500 text-sm mt-1">
-                Click products to add to cart • <span class="font-medium text-gray-700">{{ form.items.length }} items in cart</span>
+                {{ $t('sales.click_to_add') }} • <span class="font-medium text-gray-700">{{ form.items.length }} {{ $t('sales.items_in_cart') }}</span>
               </p>
             </div>
             <button
               @click="closeProductModal"
               class="px-6 py-2.5 bg-gray-900 hover:bg-gray-800 text-white font-semibold rounded-lg transition-all shadow-sm"
             >
-              Done
+              {{ $t('common.done') }}
             </button>
           </div>
         </div>
@@ -811,7 +811,7 @@
           <!-- No products message -->
           <div v-if="filteredProducts.length === 0" class="text-center py-16">
             <div class="text-6xl mb-4 text-gray-300">📭</div>
-            <p class="text-gray-500 text-lg">No products found</p>
+            <p class="text-gray-500 text-lg">{{ $t('products.no_products') }}</p>
             <p class="text-gray-400 text-sm mt-1">Try adjusting your filters</p>
           </div>
         </div>
@@ -823,9 +823,9 @@
         >
           <div class="flex flex-col sm:flex-row justify-between items-center gap-3">
             <div class="text-gray-500 text-sm">
-              Showing <span class="font-medium text-gray-700">{{ startIndex + 1 }}</span> to
-              <span class="font-medium text-gray-700">{{ Math.min(endIndex, filteredProducts.length) }}</span> of
-              <span class="font-medium text-gray-700">{{ filteredProducts.length }}</span> products
+              {{ $t('common.showing') }} <span class="font-medium text-gray-700">{{ startIndex + 1 }}</span> {{ $t('common.to') }}
+              <span class="font-medium text-gray-700">{{ Math.min(endIndex, filteredProducts.length) }}</span> {{ $t('common.of') }}
+              <span class="font-medium text-gray-700">{{ filteredProducts.length }}</span> {{ $t('products.title') }}
             </div>
             <div class="flex items-center gap-2">
               <button
@@ -965,7 +965,7 @@
             @click="showPaymentModal = false"
             class="flex-1 px-6 py-3 bg-gray-600 hover:bg-gray-700 text-white font-semibold rounded-[5px] transition"
           >
-            Close
+            {{ $t('common.close') }}
           </button>
         </div>
       </div>
@@ -1009,7 +1009,7 @@
               @click="closeModal"
               class="px-8 py-3 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition shadow-lg"
             >
-              CLOSE
+              {{ $t('common.close') }}
             </button>
           </div>
         </div>
@@ -1065,7 +1065,7 @@
             @click="showClosingModal = false"
             class="flex-1 rounded-[5px] bg-gray-600 px-4 py-2.5 font-semibold text-white transition hover:bg-gray-700"
           >
-            Cancel
+            {{ $t('common.cancel') }}
           </button>
           <button
             @click="submitClosingBalance"
@@ -1179,12 +1179,15 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import { Head, useForm, router, usePage } from "@inertiajs/vue3";
+import { useI18n } from "vue-i18n";
 const page = usePage();
 import { ref, computed, onMounted,onUnmounted } from "vue";
 import { logActivity } from "@/composables/useActivityLog";
 import Modal from "@/Components/Modal.vue";
 import CustomerCreateModal from "@/Pages/Customers/Components/CustomerCreateModal.vue";
 import { useDashboardNavigation } from "@/composables/useDashboardNavigation";
+
+useI18n();
 
 const props = defineProps({
   invoice_no: String,

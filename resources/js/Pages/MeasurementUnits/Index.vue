@@ -10,16 +10,16 @@
             @click="$inertia.visit(route('dashboard'))"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-4xl font-bold text-gray-800">Units</h1>
+          <h1 class="text-4xl font-bold text-gray-800">{{ $t('units.title') }}</h1>
         </div>
         <!-- Add New Unit Button -->
         <button
           @click="openCreateModal"
           class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-blue-600 text-white shadow-lg hover:bg-blue-700 hover:shadow-xl hover:scale-105 transition-all duration-300"
         >
-          + Add Unit
+          + {{ $t('units.add') }}
         </button>
       </div>
 
@@ -34,7 +34,7 @@
           <input
             v-model="search"
             type="text"
-            placeholder="Search units by name or symbol..."
+            :placeholder="$t('common.search')"
             class="w-full rounded-[8px] border border-gray-300 bg-white py-2.5 pl-10 pr-4 text-sm text-gray-800 shadow-sm focus:border-blue-500 focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
@@ -48,14 +48,14 @@
           <!-- Table Header -->
           <thead>
             <tr class="border-b-2 border-blue-600">
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">#</th>
-              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Unit Name</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.number') }}</th>
+              <th class="px-4 py-3 text-blue-600 font-semibold text-sm">{{ $t('fields.name') }}</th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm">Symbol</th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Status
+                {{ $t('fields.status') }}
               </th>
               <th class="px-4 py-3 text-blue-600 font-semibold text-sm text-center">
-                Actions
+                {{ $t('common.actions') }}
               </th>
             </tr>
           </thead>
@@ -108,7 +108,7 @@
                         : 'text-white bg-blue-600 hover:bg-blue-700 hover:shadow-lg hover:scale-105',
                     ]"
                   >
-                    Edit
+                    {{ $t('common.edit') }}
                   </button>
                 </div>
               </td>
@@ -116,7 +116,7 @@
             <!-- Empty State Message -->
             <tr v-if="!normalizedUnits.length">
               <td colspan="5" class="px-6 py-8 text-center text-gray-500 font-medium">
-                No measurement units found
+                {{ $t('units.no_units') }}
               </td>
             </tr>
           </tbody>
@@ -125,7 +125,7 @@
         <!-- Pagination -->
         <div class="flex items-center justify-between px-6 py-4 mt-4" v-if="measurementUnits.links">
           <div class="text-sm text-gray-600 font-medium">
-            Showing {{ measurementUnits.from }} to {{ measurementUnits.to }} of {{ measurementUnits.total }} results
+            {{ $t('common.showing') }} {{ measurementUnits.from }} {{ $t('common.of') }} {{ measurementUnits.total }} {{ $t('common.results') }}
           </div>
           <div class="flex space-x-2">
             <button
@@ -168,9 +168,12 @@
 
 import { ref, computed, toRefs, watch, onUnmounted } from "vue";
 import { router } from "@inertiajs/vue3";
+import { useI18n } from "vue-i18n";
 import AppLayout from "@/Layouts/AppLayout.vue";
 import MeasurementUnitCreateModal from "./Components/MeasurementUnitCreateModal.vue";
 import MeasurementUnitEditModal from "./Components/MeasurementUnitEditModal.vue";
+
+const { t } = useI18n();
 
 /**
  * Component Props
@@ -225,11 +228,11 @@ onUnmounted(() => {
  * Status Map
  * Maps status codes to display text and styling
  */
-const statusMap = {
-  0: { text: "Inactive", class: "bg-red-500" },
-  1: { text: "Active", class: "bg-green-500" },
+const statusMap = computed(() => ({
+  0: { text: t('fields.inactive'), class: "bg-red-500" },
+  1: { text: t('fields.active'), class: "bg-green-500" },
   2: { text: "Default", class: "bg-blue-500" },
-};
+}));
 
 /**
  * Normalize status values

@@ -8,34 +8,34 @@
             @click="goToSettingsTab"
             class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-white text-gray-700 hover:bg-gray-50 border border-gray-200 hover:border-gray-300 transition-all duration-200"
           >
-            ← Back
+            ← {{ $t('common.back') }}
           </button>
-          <h1 class="text-3xl font-bold text-black">Users Management</h1>
+          <h1 class="text-3xl font-bold text-black">{{ $t('users.title') }}</h1>
         </div>
         <button
           @click="openCreateModal"
           class="px-6 py-2.5 text-white bg-blue-600 rounded-[5px] hover:bg-blue-700 hover:scale-105 transition-all duration-200 font-semibold shadow-md hover:shadow-lg"
         >
-          + Add User
+          + {{ $t('users.add') }}
         </button>
       </div>
 
       <div class="bg-white rounded-2xl border border-gray-200 shadow-lg overflow-hidden">
         <!-- Header -->
         <div class="bg-white border-b-2 border-blue-600 px-6 py-4">
-          <h2 class="text-xl font-semibold text-blue-600">All Users</h2>
-          <p class="text-sm text-gray-600 mt-1">Manage system users and their roles</p>
+          <h2 class="text-xl font-semibold text-blue-600">{{ $t('users.manage') }}</h2>
+          <p class="text-sm text-gray-600 mt-1">{{ $t('users.manage') }}</p>
         </div>
 
         <div class="overflow-x-auto">
           <table class="w-full text-left">
             <thead class="bg-gray-50 border-b-2 border-gray-200">
               <tr>
-                <th class="px-6 py-4 text-sm font-semibold text-gray-700">#</th>
-                <th class="px-6 py-4 text-sm font-semibold text-gray-700">Name</th>
-                <th class="px-6 py-4 text-sm font-semibold text-gray-700">Email</th>
+                <th class="px-6 py-4 text-sm font-semibold text-gray-700">{{ $t('fields.number') }}</th>
+                <th class="px-6 py-4 text-sm font-semibold text-gray-700">{{ $t('fields.name') }}</th>
+                <th class="px-6 py-4 text-sm font-semibold text-gray-700">{{ $t('fields.email') }}</th>
                 <th class="px-6 py-4 text-sm font-semibold text-gray-700">User Type</th>
-                <th class="px-6 py-4 text-sm font-semibold text-gray-700">Actions</th>
+                <th class="px-6 py-4 text-sm font-semibold text-gray-700">{{ $t('common.actions') }}</th>
               </tr>
             </thead>
             <tbody class="divide-y divide-gray-200">
@@ -73,13 +73,13 @@
                       @click="openEditModal(user)"
                       class="px-4 py-2 text-white bg-blue-600 rounded-[5px] hover:bg-blue-700 hover:scale-105 transition-all duration-200 text-sm font-medium shadow-sm"
                     >
-                      Edit
+                      {{ $t('common.edit') }}
                     </button>
                     <button
                       @click="openDeleteModal(user)"
                       class="px-4 py-2 text-white bg-red-600 rounded-[5px] hover:bg-red-700 hover:scale-105 transition-all duration-200 text-sm font-medium shadow-sm"
                     >
-                      Delete
+                      {{ $t('common.delete') }}
                     </button>
                   </div>
                 </td>
@@ -100,7 +100,7 @@
                         d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"
                       />
                     </svg>
-                    <p class="text-lg font-medium">No users found</p>
+                    <p class="text-lg font-medium">{{ $t('users.no_users') }}</p>
                   </div>
                 </td>
               </tr>
@@ -114,7 +114,7 @@
           v-if="users.links"
         >
           <div class="text-sm text-gray-700 font-medium">
-            Showing {{ users.from }} to {{ users.to }} of {{ users.total }} results
+            {{ $t('common.showing') }} {{ users.from }} {{ $t('common.of') }} {{ users.total }} {{ $t('common.results') }}
           </div>
           <div class="flex space-x-2">
             <button
@@ -158,11 +158,14 @@
 
 <script setup>
 import { ref } from "vue";
+import { useI18n } from "vue-i18n";
 import { router } from "@inertiajs/vue3";
 import UserCreateModal from "./Components/UserCreateModal.vue";
 import UserEditModal from "./Components/UserEditModal.vue";
 import UserDeleteModal from "./Components/UserDeleteModal.vue";
 import { useDashboardNavigation } from "@/composables/useDashboardNavigation";
+
+useI18n();
 
 const { goToSettingsTab } = useDashboardNavigation();
 
