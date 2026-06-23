@@ -54,6 +54,7 @@ class ProductController extends Controller
             'purchase_price',
             'wholesale_price',
             'retail_price',
+            'market_price',
             'shop_quantity',
             'shop_low_stock_margin',
             'purchase_unit_id',
@@ -192,6 +193,7 @@ class ProductController extends Controller
             'purchase_price' => 'nullable|numeric|min:0',
             'wholesale_price' => 'nullable|numeric|min:0',
             'retail_price' => 'nullable|numeric|min:0',
+            'market_price' => 'nullable|numeric|min:0',
 
             'return_product' => 'nullable|boolean',
 
@@ -278,6 +280,7 @@ class ProductController extends Controller
             'purchase_price' => 'nullable|numeric|min:0',
             'wholesale_price' => 'nullable|numeric|min:0',
             'retail_price' => 'nullable|numeric|min:0',
+            'market_price' => 'nullable|numeric|min:0',
             'return_product' => 'nullable|boolean',
             'purchase_unit_id' => 'nullable|exists:measurement_units,id',
             'sales_unit_id' => 'nullable|exists:measurement_units,id',
@@ -351,7 +354,8 @@ class ProductController extends Controller
 
             'purchase_price' => 'nullable|numeric|min:0',
             'wholesale_price' => 'nullable|numeric|min:0',
-            'retail_price' => 'required|numeric|min:0',
+            'retail_price' => 'nullable|numeric|min:0',
+            'market_price' => 'nullable|numeric|min:0',
             'return_product' => 'nullable|boolean',
             'purchase_unit_id' => 'nullable|exists:measurement_units,id',
             'sales_unit_id' => 'nullable|exists:measurement_units,id',

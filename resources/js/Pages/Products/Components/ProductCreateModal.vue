@@ -197,6 +197,19 @@
             </div>
 
 
+            <div>
+              <label class="block mb-2 text-sm font-medium text-gray-700">
+                {{ $t('products.market_price_label') }}
+              </label>
+              <input
+                v-model="form.market_price"
+                type="number"
+                step="0.01"
+                class="w-full px-3 py-2 text-sm text-gray-800 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                placeholder="0.00"
+              />
+            </div>
+
              <!-- Tax -->
             <div>
               <label class="block mb-2 text-sm font-medium text-gray-700">{{ $t('fields.tax') }}</label>
@@ -553,6 +566,7 @@ const form = useForm({
   purchase_price: 0,
   wholesale_price: null,
   retail_price: null,
+  market_price: null,
   return_product: false,
   purchase_unit_id: "",
   sales_unit_id: "",
@@ -732,6 +746,7 @@ const submit = () => {
     purchase_price: form.purchase_price,
     wholesale_price: form.wholesale_price,
     retail_price: form.retail_price,
+    market_price: form.market_price,
     return_product: form.return_product,
     purchase_unit_id: form.purchase_unit_id,
     sales_unit_id: form.sales_unit_id,

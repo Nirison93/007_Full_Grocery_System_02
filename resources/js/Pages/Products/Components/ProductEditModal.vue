@@ -181,6 +181,23 @@
                   }}</span>
                 </div>
 
+                <!-- Market Price -->
+                <div>
+                  <label class="block mb-2 text-sm font-medium text-gray-700">
+                    Market Price
+                  </label>
+                  <input
+                    v-model.number="form.market_price"
+                    type="number"
+                    step="0.01"
+                    class="w-full px-4 py-2 text-gray-800 bg-white border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="0.00"
+                  />
+                  <span v-if="errors.market_price" class="text-sm text-red-500">{{
+                    errors.market_price
+                  }}</span>
+                </div>
+
                  <!-- Tax -->
                 <div>
                   <label class="block mb-2 text-sm font-medium text-gray-700">Tax</label>
@@ -519,6 +536,7 @@ const form = ref({
   purchase_price: "",
   wholesale_price: "",
   retail_price: "",
+  market_price: "",
   return_product: false,
   purchase_unit_id: "",
   sales_unit_id: "",
@@ -689,6 +707,7 @@ watch(
         purchase_price: product.purchase_price || "",
         wholesale_price: product.wholesale_price || "",
         retail_price: product.retail_price || "",
+        market_price: product.market_price || "",
         return_product: product.return_product || false,
         purchase_unit_id: product.purchase_unit_id || "",
         sales_unit_id: product.sales_unit_id || "",

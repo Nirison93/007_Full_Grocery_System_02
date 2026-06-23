@@ -1163,6 +1163,14 @@
               {{( Math.abs(parseFloat(completedBalance))||0).toFixed(2) }}</span
             >
           </div>
+          <div class="flex justify-between font-bold mt-2 bg-green-100 text-green-800 rounded px-2 py-1">
+            <span>ඔබ ලැබූ ලාභය:</span>
+            <span>({{ page.props.currency || "Rs." }}) {{ completedItems.reduce((sum, item) => sum + ((item.market_price || 0) - (item.price || 0)) * item.quantity, 0).toFixed(2) }}</span>
+          </div>
+          <div class="flex justify-between mt-1">
+            <span>භාණ්ඩ ප්‍රමාණය:</span>
+            <span>{{ completedItems.reduce((sum, item) => sum + item.quantity, 0) }}</span>
+          </div>
         </div>
         <hr class="my-4 border-black" />
         <p class="text-center text-xs">
@@ -1335,6 +1343,7 @@ const loadQuotationData = () => {
     product_id: item.product_id,
     product_name: item.product_name,
     price: parseFloat(item.price),
+    market_price: parseFloat(item.market_price) || 0,
     retail_price: parseFloat(item.retail_price),
     wholesale_price: parseFloat(item.wholesale_price),
     quantity: item.quantity,
@@ -1482,6 +1491,7 @@ const addByBarcode = () => {
         product_id: product.id,
         product_name: product.name,
         price: parseFloat(price),
+        market_price: parseFloat(product.market_price) || 0,
         quantity: 1,
         sale_unit: product.salesUnit ? product.salesUnit.name : 'Not found',
         discount: product.discount
@@ -1519,6 +1529,7 @@ const addToCart = (product) => {
       product_id: product.id,
       product_name: product.name,
       price: parseFloat(price),
+      market_price: parseFloat(product.market_price) || 0,
       quantity: productQuantities.value[product.id] || 1,
       sale_unit: product.salesUnit ? product.salesUnit.name : 'Not found',
       discount: product.discount
@@ -2010,7 +2021,7 @@ const printReceipt = () => {
                   font-size: 12px;
                     width: ${width};
                     margin: 0;
-                    padding: 3mm 5mm;
+                    padding: 1mm 1mm;
                     background: white;
                     color: #000;
                     line-height: 1.4;
@@ -2059,7 +2070,7 @@ const printReceipt = () => {
                 .items-table {
                     width: 100%;
                     margin: 8px 0;
-                  font-size: 11px;
+                    font-size: 13px;
                     border-collapse: collapse;
                     font-weight: 600;
                     color: #000;
@@ -2069,6 +2080,7 @@ const printReceipt = () => {
                     border-bottom: 2px solid #000;
                     padding: 3px 2px;
                     font-weight: 800;
+                    font-size: 11px;
                     color: #000;
                 }
                 .items-table th.item-price {
@@ -2077,30 +2089,37 @@ const printReceipt = () => {
                 .items-table th.item-total {
                   text-align: right;
                 }
-                     .items-table tr th {
-                   font-size: 11px;
-                }
                 .items-table td {
-                    padding: 3px 2px;
-                    border-bottom: 1px dotted #000;
+                    padding: 2px 2px;
                     vertical-align: top;
                     font-weight: 600;
                     color: #000;
                 }
+                .item-name-row td {
+                    border-bottom: none;
+                    padding-bottom: 0;
+                    font-weight: 800;
+                    font-size: 13px;
+                }
+                .item-data-row td {
+                    border-bottom: 1px dotted #000;
+                    padding-top: 0;
+                    font-size: 14px;
+                }
                 .item-name {
-                    width: 38%;
+                    width: 22%;
                     word-wrap: break-word;
                 }
                 .item-qty {
-                    width: 12%;
+                    width: 10%;
                     text-align: center;
                 }
                 .item-price {
-                    width: 25%;
-                    text-align: right;
+                    width: 30%;
+                    text-align: center;
                 }
                 .item-total {
-                    width: 25%;
+                    width: 21%;
                     text-align: right;
                 }
                 .totals {
@@ -2183,7 +2202,9 @@ const printReceipt = () => {
                     <thead>
                         <tr>
                             <th class="item-name">භාණ්ඩය</th>
-                      <th class="item-price">ප්‍රමාණය * එකක මිල</th>
+                            <th class="item-price">වෙළද මිල​</th>
+                            <th class="item-price">අපේ මිල​​</th>
+                            <th class="item-price">ප්‍රමාණය​​</th>
                             <th class="item-total">එකතුව</th>
                         </tr>
                     </thead>
@@ -2191,9 +2212,14 @@ const printReceipt = () => {
                         ${completedItems.value
                           .map(
                             (item) => `
-                            <tr>
-                                <td class="item-name">${item.product_name}</td>
-                        <td class="item-price">${item.quantity} * ${(item.price||0).toFixed(2)}</td>
+                            <tr class="item-name-row">
+                                <td colspan="5">${item.product_name}</td>
+                            </tr>
+                            <tr class="item-data-row">
+                                <td></td>
+                                <td class="item-price">${(item.market_price||0).toFixed(2)}</td>
+                                <td class="item-price">${(item.price||0).toFixed(2)}</td>
+                                <td class="item-price">${item.quantity}</td>
                                 <td class="item-total">${(
                                   (item.price||0) * item.quantity
                                 ).toFixed(2)}</td>
@@ -2207,7 +2233,7 @@ const printReceipt = () => {
 
                <div class="totals">
     <div class="total-row">
-        <span>උප එකතුව:</span>
+        <span>එකතුව:</span>
         <span>${page.props.currency || "රු"} ${completedTotal.value}</span>
     </div>
 
@@ -2234,7 +2260,7 @@ const printReceipt = () => {
     }
 
     <div class="total-row grand">
-        <span>මුළු එකතුව:</span>
+        <span>මුළු මුදල​ :</span>
         <span>${page.props.currency || "රු"} ${completedNetAmount.value}</span>
     </div>
 
@@ -2248,13 +2274,23 @@ const printReceipt = () => {
             ${
               parseFloat(completedBalance.value) > 0
                 ? "ඉතිරි ගෙවිය යුතු මුදල:"
-                : "වෙනස් මුදල:"
+                : "ඉතිරි මුදල:"
             }
         </span>
 
         <span>${page.props.currency || "රු"} ${Math.abs(
           parseFloat(completedBalance.value)
         ).toFixed(2)}</span>
+    </div>
+
+    <div class="total-row" style="color: #155724; font-weight: bold; padding: 4px 8px; border-radius: 4px; margin-top: 4px;border: 2px solid #000;">
+        <span>ඔබ ලැබූ ලාභය:</span>
+        <span>${page.props.currency || "රු"} ${completedItems.value.reduce((sum, item) => sum + ((item.market_price || 0) - (item.price || 0)) * item.quantity, 0).toFixed(2)}</span>
+    </div>
+
+    <div class="total-row">
+        <span>භාණ්ඩ ප්‍රමාණය:</span>
+        <span>${completedItems.value.reduce((sum, item) => sum + item.quantity, 0)}</span>
     </div>
 </div>
 
