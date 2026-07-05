@@ -24,7 +24,7 @@ export default {
     welcome_back: 'ආයුබෝවන්',
     sign_in_subtitle: 'ඔබේ ගිණුමට ප්‍රවේශ වීමට දිගටම කරගෙන යන්න',
     email_address: 'ඊමේල් ලිපිනය',
-    email_placeholder: 'you@@example.com',
+    email_placeholder: 'you@example.com',
     password: 'මුරපදය',
     password_placeholder: 'ඔබේ මුරපදය ඇතුළු කරන්න',
     forgot_password: 'මුරපදය අමතකද?',

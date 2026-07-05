@@ -24,7 +24,7 @@ export default {
     welcome_back: 'Welcome back',
     sign_in_subtitle: 'Sign in to your account to continue',
     email_address: 'Email Address',
-    email_placeholder: 'you@@example.com',
+    email_placeholder: 'you@example.com',
     password: 'Password',
     password_placeholder: 'Enter your password',
     forgot_password: 'Forgot password?',
