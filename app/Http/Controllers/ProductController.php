@@ -15,7 +15,6 @@ use App\Models\ActivityLog;
 use App\Models\ProductAvailableQuantity;
 use App\Models\GoodsReceivedNote;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Carbon\Carbon;
@@ -64,7 +63,6 @@ class ProductController extends Controller
             'transfer_to_sales_rate',
             'return_product',
             'status',
-            'image',
             'created_at',
             'updated_at'
         ])->with([
@@ -205,18 +203,11 @@ class ProductController extends Controller
             'transfer_to_sales_rate' => 'nullable|numeric|min:0',
 
             'status' => 'required|integer|in:0,1',
-
-            'image' => 'nullable|image',
         ]);
 
         // Generate barcode if empty
         if (empty($validated['barcode'])) {
             $validated['barcode'] = $this->generateBarcode();
-        }
-
-        // Image upload
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('products', 'public');
         }
 
         // Return product convert to boolean
@@ -288,21 +279,11 @@ class ProductController extends Controller
             'purchase_to_transfer_rate' => 'nullable|numeric|min:0',
             'transfer_to_sales_rate' => 'nullable|numeric|min:0',
             'status' => 'required|integer|in:0,1',
-            'image' => 'nullable|image',
         ]);
 
         // Generate barcode if product doesn't have one
         if (empty($product->barcode) && empty($validated['barcode'])) {
             $validated['barcode'] = $this->generateBarcode();
-        }
-
-        // Handle image upload
-        if ($request->hasFile('image')) {
-            // Delete old image if exists
-            if ($product->image) {
-                Storage::disk('public')->delete($product->image);
-            }
-            $validated['image'] = $request->file('image')->store('products', 'public');
         }
 
         // Convert return_product to boolean
@@ -364,17 +345,11 @@ class ProductController extends Controller
             'transfer_to_sales_rate' => 'nullable|numeric|min:0',
 
             'status' => 'required|integer|in:0,1',
-            'image' => 'nullable|image|mimes:jpeg,png,jpg,gif',
         ]);
 
         // Auto-generate barcode if not provided
         if (empty($validated['barcode'])) {
             $validated['barcode'] = $this->generateBarcode();
-        }
-
-        // Image upload
-        if ($request->hasFile('image')) {
-            $validated['image'] = $request->file('image')->store('products', 'public');
         }
 
         // Boolean cast

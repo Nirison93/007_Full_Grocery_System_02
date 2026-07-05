@@ -418,8 +418,8 @@
               </label>
             </div>
 
-            <!-- Image Upload -->
-            <div>
+            <!-- Image Upload (Hidden) -->
+            <!-- <div>
               <label class="block mb-2 text-sm font-medium text-gray-700"
                 >{{ $t('products.product_image_label') }}</label
               >
@@ -432,7 +432,7 @@
               <span v-if="form.errors.image" class="text-sm text-red-500">{{
                 form.errors.image
               }}</span>
-            </div>
+            </div> -->
           </div>
         </div>
 

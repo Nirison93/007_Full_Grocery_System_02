@@ -203,6 +203,7 @@ export default {
     purchase_price_label: 'මිලදී ගැනීමේ මිල',
     wholesale_price_label: 'තොග මිල (විකිණුම් ඒකකයකට)',
     retail_price_label: 'සිල්ලර මිල (විකිණුම් ඒකකයකට)',
+    market_price_label: 'වෙළඳ මිල',
     select_tax: 'බදු තෝරන්න',
     select_discount: 'වට්ටම් තෝරන්න',
     inventory_units: 'තොග හා ඒකක',

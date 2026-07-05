@@ -203,6 +203,7 @@ export default {
     purchase_price_label: 'Purchase Price',
     wholesale_price_label: 'Wholesale Price (per sales unit)',
     retail_price_label: 'Retail Price (per sales unit)',
+    market_price_label: 'Market Price',
     select_tax: 'Select Tax',
     select_discount: 'Select Discount',
     inventory_units: 'Inventory & Units',
