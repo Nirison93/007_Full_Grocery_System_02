@@ -407,8 +407,8 @@
                     Allow Product Returns
                   </label>
                 </div>
-                <!-- Current Image Display -->
-                <div
+                <!-- Current Image Display (Hidden) -->
+                <!-- <div
                   v-if="product?.image"
                   class="p-3 bg-white rounded-lg border border-gray-200"
                 >
@@ -418,10 +418,10 @@
                     :alt="product.name"
                     class="h-24 rounded-lg shadow-sm"
                   />
-                </div>
+                </div> -->
 
-                <!-- Image Upload -->
-                <div>
+                <!-- Image Upload (Hidden) -->
+                <!-- <div>
                   <label class="block mb-2 text-sm font-medium text-gray-700">
                     {{ product?.image ? "Replace Product Image" : "Product Image" }}
                   </label>
@@ -434,7 +434,7 @@
                   <span v-if="errors.image" class="text-sm text-red-500">{{
                     errors.image
                   }}</span>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>
