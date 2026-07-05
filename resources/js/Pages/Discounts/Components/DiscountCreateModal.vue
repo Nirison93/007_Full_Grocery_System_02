@@ -52,9 +52,9 @@
                     class="w-full px-4 py-2.5 bg-white text-gray-800 border border-gray-300 rounded-[5px] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                     :class="{ 'border-red-500': validationErrors.name || form.errors.name }"
                     required
-                    pattern="^[A-Za-z\s]+$"
+
                     @input="onDiscountNameInput"
-                    title="Only alphabetic characters and spaces are allowed."
+                    title="Alphabetic characters, numbers, Sinhala text, hyphens and apostrophes are allowed."
                   />
                   <p v-if="validationErrors.name" class="mt-1 text-sm text-red-500">
                     {{ validationErrors.name }}
@@ -170,7 +170,7 @@
                     :disabled="form.processing"
                     class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 disabled:opacity-50"
                   >
-                    {{ form.processing ? 'âœ¨ Creating...' : 'âœ¨ Create Discount' }}
+                    {{ form.processing ? '✨ Creating...' : '✨ Create Discount' }}
                   </button>
                 </div>
               </form>
@@ -214,9 +214,9 @@ const form = useForm({
   status: '1',
 });
 
-// Only allow alphabetic characters and spaces in discount name
+// Allow alphabetic characters, Sinhala text, numbers, spaces, hyphens, and apostrophes
 const onDiscountNameInput = (e) => {
-  e.target.value = e.target.value.replace(/[^A-Za-z\s]/g, "");
+  e.target.value = e.target.value.replace(/[^A-Za-z0-9඀-෿\s\-']/g, "");
   form.name = e.target.value;
 };
 
@@ -225,8 +225,8 @@ const validateForm = () => {
 
   if (!form.name || form.name.trim() === '') {
     validationErrors.value.name = 'Discount name is required';
-  } else if (!/^[A-Za-z\s]+$/.test(form.name)) {
-    validationErrors.value.name = 'Only alphabetic characters and spaces are allowed';
+  } else if (!/^[A-Za-z0-9඀-෿\s\-']+$/.test(form.name)) {
+    validationErrors.value.name = 'Only alphabetic characters, numbers, Sinhala text, hyphens and apostrophes are allowed';
   }
 
   if (!form.type) {

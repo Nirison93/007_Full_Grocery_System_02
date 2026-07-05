@@ -33,7 +33,7 @@
                   as="h3"
                   class="text-2xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent"
                 >
-                  âœ¨ Add Category
+                  ✨ Add Category
                 </DialogTitle>
                 <button
                   type="button"
@@ -74,9 +74,9 @@
                         class="w-full px-3 py-2 text-sm text-gray-800 bg-white/60 backdrop-blur-sm border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
                         placeholder="Enter category name"
                         required
-                        pattern="^[A-Za-z\s]+$"
+
                         @input="onCategoryNameInput"
-                        title="Only alphabetic characters and spaces are allowed."
+                        title="Alphabetic characters, numbers, Sinhala text, hyphens and apostrophes are allowed."
                       />
                       <p v-if="form.errors.name" class="mt-1 text-sm text-red-500">
                         {{ form.errors.name }}
@@ -98,7 +98,7 @@
                           :key="category.id"
                           :value="category.id"
                         >
-                          {{ category.hierarchy_string ? category.hierarchy_string + ' â†’ ' + category.name : category.name }}
+                          {{ category.hierarchy_string ? category.hierarchy_string + " → " + category.name : category.name }}
                         </option>
                       </select>
                       <p v-if="form.errors.parent_id" class="mt-1 text-sm text-red-500">
@@ -140,7 +140,7 @@
                     :disabled="form.processing"
                     class="px-6 py-2.5 text-sm font-medium text-white bg-blue-600 rounded-[5px] hover:bg-blue-700 hover:shadow-lg hover:scale-105 transition-all duration-300 disabled:opacity-50"
                   >
-                    {{ form.processing ? "ðŸ’¾ Creating..." : "ðŸ’¾ Save Category" }}
+                    {{ form.processing ? "💾 Creating..." : "💾 Save Category" }}
                   </button>
                 </div>
               </form>
@@ -153,11 +153,6 @@
 </template>
 
 <script setup>
-// Only allow alphabetic characters and spaces in category name
-const onCategoryNameInput = (e) => {
-  e.target.value = e.target.value.replace(/[^A-Za-z\s]/g, "");
-  form.name = e.target.value;
-};
 import { computed } from "vue";
 import { useForm } from "@inertiajs/vue3";
 import { logActivity } from "@/composables/useActivityLog";
@@ -168,6 +163,12 @@ import {
   DialogPanel,
   DialogTitle,
 } from "@headlessui/vue";
+
+// Allow alphabetic characters, Sinhala text, numbers, spaces, hyphens, and apostrophes
+const onCategoryNameInput = (e) => {
+  e.target.value = e.target.value.replace(/[^A-Za-z0-9඀-෿\s\-']/g, "");
+  form.name = e.target.value;
+};
 
 const props = defineProps({
   open: Boolean,

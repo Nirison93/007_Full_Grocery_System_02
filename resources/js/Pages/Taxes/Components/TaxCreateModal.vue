@@ -32,7 +32,7 @@
                   as="h3"
                   class="text-2xl font-bold text-blue-700"
                 >
-                âœ¨ Add New Tax
+                ✨ Add New Tax
                 </DialogTitle>
                 <button @click="closeModal" class="text-gray-400 hover:text-gray-600 transition-colors">
                   <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -51,9 +51,9 @@
                     type="text"
                     class="w-full px-4 py-2.5 bg-white text-gray-800 border border-gray-300 rounded-[5px] focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition-all"
                     required
-                    pattern="^[A-Za-z\s]+$"
+
                     @input="onTaxNameInput"
-                    title="Only alphabetic characters and spaces are allowed."
+                    title="Alphabetic characters, numbers, Sinhala text, hyphens and apostrophes are allowed."
                   />
                   <p v-if="form.errors.name" class="mt-1 text-sm text-red-500">
                     {{ form.errors.name }}
@@ -125,7 +125,7 @@
                     :disabled="form.processing"
                     class="px-6 py-2.5 rounded-[5px] font-medium text-sm bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 disabled:opacity-50"
                   >
-                    {{ form.processing ? 'âœ¨ Creating...' : 'âœ¨ Create Tax' }}
+                    {{ form.processing ? '✨ Creating...' : '✨ Create Tax' }}
                   </button>
                 </div>
               </form>
@@ -149,9 +149,9 @@ import {
 } from '@headlessui/vue';
 import { logActivity } from '@/composables/useActivityLog';
 
-// Only allow alphabetic characters and spaces in tax name
+// Allow alphabetic characters, Sinhala text, numbers, spaces, hyphens, and apostrophes
 const onTaxNameInput = (e) => {
-  e.target.value = e.target.value.replace(/[^A-Za-z\s]/g, "");
+  e.target.value = e.target.value.replace(/[^A-Za-z0-9඀-෿\s\-']/g, "");
   form.name = e.target.value;
 };
 
