@@ -213,7 +213,7 @@ const submit = () => {
 
           </form>
 
-          <p class="copyright">{{ currentYear }} {{ $t('auth.copyright').replace('© {year} Online මුදලාලි. ', '') }}</p>
+          <p class="copyright">© {{ currentYear }} {{ $t('auth.copyright') }}</p>
         </div>
       </div>
 

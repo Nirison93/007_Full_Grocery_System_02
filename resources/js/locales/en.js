@@ -40,7 +40,7 @@ export default {
     active_users: 'Active users',
     uptime: 'Uptime',
     local_support: 'Local support',
-    copyright: '© {year} Online මුදලාලි. All rights reserved.',
+    copyright: 'Online මුදලාලි. All rights reserved.',
   },
 
   // Common actions / buttons

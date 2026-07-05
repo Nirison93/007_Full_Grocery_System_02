@@ -40,7 +40,7 @@ export default {
     active_users: 'ක්‍රියාකාරී පරිශීලකයන්',
     uptime: 'ක්‍රියාකාරී කාලය',
     local_support: 'ස්ථානීය සහාය',
-    copyright: '© {year} Online මුදලාලි. සියලු හිමිකම් ඇවිරිණි.',
+    copyright: 'Online මුදලාලි. සියලු හිමිකම් ඇවිරිණි.',
   },
 
   // Common actions / buttons
