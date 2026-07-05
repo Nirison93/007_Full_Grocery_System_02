@@ -52,6 +52,7 @@ class Product extends Model
         'purchase_price',
         'wholesale_price',
         'retail_price',
+        'market_price',
         'return_product',
         'purchase_unit_id',
         'sales_unit_id',

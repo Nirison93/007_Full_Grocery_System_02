@@ -149,9 +149,7 @@ const submit = () => {
             <div class="field">
               <div class="field-header">
                 <label for="password" class="field-label">{{ $t('auth.password') }}</label>
-                <a v-if="canResetPassword" :href="route('password.request')" class="forgot-link">
-                  {{ $t('auth.forgot_password') }}
-                </a>
+              
               </div>
               <div class="field-wrap">
                 <svg class="field-icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -215,7 +213,7 @@ const submit = () => {
 
           </form>
 
-          <p class="copyright">© {{ currentYear }} Online මුදලාලි. {{ $t('auth.copyright').replace('© {year} Online මුදලාලි. ', '') }}</p>
+          <p class="copyright">{{ currentYear }} {{ $t('auth.copyright').replace('© {year} Online මුදලාලි. ', '') }}</p>
         </div>
       </div>
 

@@ -172,6 +172,12 @@
               </p>
             </div>
             <div class="p-3 bg-white rounded-lg border border-gray-200">
+              <p class="text-xs text-gray-600">Market Price</p>
+              <p class="text-base font-bold text-purple-600">
+                {{ formatPrice(product?.market_price) }}
+              </p>
+            </div>
+            <div class="p-3 bg-white rounded-lg border border-gray-200">
               <p class="text-xs text-gray-600">Discount</p>
               <p class="text-sm font-medium text-gray-800">
                 {{ product?.discount?.name || "No Discount" }}
