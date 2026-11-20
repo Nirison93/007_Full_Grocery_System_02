@@ -2164,7 +2164,7 @@ const printReceipt = () => {
         <body>
             <div class="receipt-container">
                 <div class="header">
-                    <div style="margin-bottom:6px;"><img src="/images/logo.png" alt="logo" style="max-height:40px; max-width:100%; object-fit:contain;"/></div>
+                    <div style="margin-bottom:6px;"><img src="/images/logo.png" alt="logo" style="max-height:100px; max-width:100%; object-fit:contain;"/></div>
                     <h1>${bill.company_name || "SALES RECEIPT"}</h1>
                     ${bill.address ? `<p>${bill.address}</p>` : ""}
                     ${
